@@ -1,10 +1,57 @@
-export default async function DashboardPage() {
+"use client";
+
+import {
+  ProjectList,
+  CreateProjectModal,
+  EditProjectModal,
+  DeleteProjectModal,
+} from "@/features/projects";
+import { useProjectModals } from "@/features/projects/hooks/useProjectModals";
+import { ProjectsHeader } from "./ProjectsHeader";
+
+export default function DashboardPage() {
+  const {
+    isCreateModalOpen,
+    isEditModalOpen,
+    isDeleteModalOpen,
+    selectedProjectId,
+    openCreateModal,
+    closeCreateModal,
+    openEditModal,
+    closeEditModal,
+    openDeleteModal,
+    closeDeleteModal,
+  } = useProjectModals();
+
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-xl font-semibold mb-2">Welcome!</h2>
-      <p className="text-gray-600">
-        プロジェクト機能は次のステップで実装します 🚀
-      </p>
-    </div>
+    <>
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <ProjectsHeader onCreateClick={openCreateModal} />
+
+        <div className="mt-8">
+          <ProjectList
+            onEdit={openEditModal}
+            onDelete={openDeleteModal}
+            onCreateClick={openCreateModal}
+          />
+        </div>
+      </main>
+
+      {/* Modals */}
+      <CreateProjectModal
+        isOpen={isCreateModalOpen}
+        onClose={closeCreateModal}
+      />
+      <EditProjectModal
+        isOpen={isEditModalOpen}
+        projectId={selectedProjectId}
+        onClose={closeEditModal}
+      />
+      <DeleteProjectModal
+        isOpen={isDeleteModalOpen}
+        projectId={selectedProjectId}
+        onClose={closeDeleteModal}
+      />
+    </>
   );
 }
