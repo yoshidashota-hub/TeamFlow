@@ -1,4 +1,5 @@
 import { protectedProcedure, publicProcedure, router } from "@/server/trpc";
+import { AuthService } from "./auth.service";
 
 export const authRouter = router({
   getSession: publicProcedure.query(({ ctx }) => {
@@ -6,17 +7,6 @@ export const authRouter = router({
   }),
 
   getUser: protectedProcedure.query(async ({ ctx }) => {
-    const user = await ctx.prisma.user.findUnique({
-      where: { id: ctx.session.user.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        createdAt: true,
-      },
-    });
-
-    return user;
+    return AuthService.getUser(ctx.session.user.id!);
   }),
 });

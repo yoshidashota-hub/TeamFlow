@@ -25,6 +25,7 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  ownedProjects Project[] @relation("ProjectOwner")
 
   @@map("users")
 }
@@ -70,4 +71,18 @@ model VerificationToken {
 
   @@id([identifier, token])
   @@map("verification_tokens")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  color       String   @default("#3B82F6")
+  ownerId     String
+  owner       User     @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([ownerId])
+  @@map("projects")
 }
