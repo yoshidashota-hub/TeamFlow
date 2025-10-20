@@ -25,15 +25,17 @@ export default function DashboardPage() {
 
   return (
     <>
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <ProjectsHeader onCreateClick={openCreateModal} />
+      <main className="min-h-screen bg-black">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <ProjectsHeader onCreateClick={openCreateModal} />
 
-        <div className="mt-8">
-          <ProjectList
-            onEdit={openEditModal}
-            onDelete={openDeleteModal}
-            onCreateClick={openCreateModal}
-          />
+          <div className="mt-8">
+            <ProjectList
+              onEdit={openEditModal}
+              onDelete={openDeleteModal}
+              onCreateClick={openCreateModal}
+            />
+          </div>
         </div>
       </main>
 
