@@ -6,20 +6,20 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/shared/components/ui/dialog";
-import { Button } from "@/shared/components/ui/button";
 import { useCreateProject } from "../hooks/useProjectMutations";
 
 const PRESET_COLORS = [
-  "#3B82F6",
-  "#10B981",
-  "#F59E0B",
-  "#EF4444",
-  "#8B5CF6",
-  "#EC4899",
-  "#6366F1",
-  "#14B8A6",
+  "#3B82F6", // 青
+  "#10B981", // 緑
+  "#F59E0B", // 黄
+  "#EF4444", // 赤
+  "#8B5CF6", // 紫
+  "#EC4899", // ピンク
+  "#14B8A6", // シアン
+  "#F97316", // オレンジ
+  "#6366F1", // インディゴ
+  "#84CC16", // ライムグリーン
 ];
 
 interface CreateProjectModalProps {
@@ -88,17 +88,17 @@ export function CreateProjectModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent>
+      <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-lg">
         <DialogHeader>
-          <DialogTitle>新規プロジェクト作成</DialogTitle>
+          <DialogTitle className="text-white text-xl">新規プロジェクト作成</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5 mt-2">
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-2"
             >
-              プロジェクト名 <span className="text-red-500">*</span>
+              プロジェクト名
             </label>
             <input
               type="text"
@@ -107,21 +107,21 @@ export function CreateProjectModal({
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="例: ウェブサイトリニューアル"
+              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              placeholder="プロジェクト名を入力"
               maxLength={100}
             />
             {errors.name && (
-              <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+              <p className="mt-1.5 text-sm text-red-400">{errors.name}</p>
             )}
           </div>
 
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-2"
             >
-              説明（オプション）
+              説明
             </label>
             <textarea
               id="description"
@@ -130,34 +130,29 @@ export function CreateProjectModal({
                 setFormData({ ...formData, description: e.target.value })
               }
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-              placeholder="プロジェクトの詳細を入力..."
+              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all"
+              placeholder="プロジェクトの詳細を入力"
               maxLength={500}
             />
-            <div className="flex justify-between mt-1">
-              {errors.description && (
-                <p className="text-sm text-red-600">{errors.description}</p>
-              )}
-              <p className="text-xs text-gray-500 ml-auto">
-                {formData.description.length}/500
-              </p>
-            </div>
+            {errors.description && (
+              <p className="mt-1.5 text-sm text-red-400">{errors.description}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-3">
               カラー
             </label>
-            <div className="flex gap-2">
+            <div className="flex gap-2.5 flex-wrap">
               {PRESET_COLORS.map((color) => (
                 <button
                   key={color}
                   type="button"
                   onClick={() => setFormData({ ...formData, color })}
-                  className={`w-10 h-10 rounded-lg transition-all ${
+                  className={`w-10 h-10 rounded-full transition-all ${
                     formData.color === color
-                      ? "ring-2 ring-offset-2 ring-gray-900 scale-110"
-                      : "hover:scale-105"
+                      ? "ring-2 ring-offset-2 ring-offset-gray-900 ring-white scale-110"
+                      : "hover:scale-105 opacity-80 hover:opacity-100"
                   }`}
                   style={{ backgroundColor: color }}
                   aria-label={`カラー ${color}`}
@@ -170,9 +165,9 @@ export function CreateProjectModal({
             <div>
               <label
                 htmlFor="startDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
-                開始日（オプション）
+                開始日
               </label>
               <input
                 type="date"
@@ -181,15 +176,15 @@ export function CreateProjectModal({
                 onChange={(e) =>
                   setFormData({ ...formData, startDate: e.target.value })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               />
             </div>
             <div>
               <label
                 htmlFor="endDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
-                終了日（オプション）
+                終了日
               </label>
               <input
                 type="date"
@@ -198,25 +193,33 @@ export function CreateProjectModal({
                 onChange={(e) =>
                   setFormData({ ...formData, endDate: e.target.value })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
 
           {errors.submit && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-              <p className="text-sm text-red-800">{errors.submit}</p>
+            <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-3">
+              <p className="text-sm text-red-400">{errors.submit}</p>
             </div>
           )}
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={handleClose}>
+          <div className="flex justify-end gap-3 pt-4">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors font-medium"
+            >
               キャンセル
-            </Button>
-            <Button type="submit" disabled={createProject.isPending}>
+            </button>
+            <button
+              type="submit"
+              disabled={createProject.isPending}
+              className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               {createProject.isPending ? "作成中..." : "作成"}
-            </Button>
-          </DialogFooter>
+            </button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
