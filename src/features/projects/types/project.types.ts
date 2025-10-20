@@ -18,6 +18,8 @@ export const createProjectSchema = z.object({
     .string()
     .regex(/^#[0-9A-F]{6}$/i, "正しいカラーコードを入力してください")
     .optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
 });
 
 export const updateProjectSchema = z.object({
@@ -28,6 +30,8 @@ export const updateProjectSchema = z.object({
     .string()
     .regex(/^#[0-9A-F]{6}$/i)
     .optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
 });
 
 export const deleteProjectSchema = z.object({

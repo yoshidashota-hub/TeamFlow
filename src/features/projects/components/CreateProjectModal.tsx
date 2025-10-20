@@ -1,8 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Modal } from "@/shared/components/Modal";
-import { Button } from "@/shared/components/Button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/shared/components/ui/dialog";
+import { Button } from "@/shared/components/ui/button";
 import { useCreateProject } from "../hooks/useProjectMutations";
 
 const PRESET_COLORS = [
@@ -31,6 +37,8 @@ export function CreateProjectModal({
     name: "",
     description: "",
     color: "#3B82F6",
+    startDate: "",
+    endDate: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -60,9 +68,11 @@ export function CreateProjectModal({
         name: formData.name.trim(),
         description: formData.description.trim() || undefined,
         color: formData.color,
+        startDate: formData.startDate ? new Date(formData.startDate) : undefined,
+        endDate: formData.endDate ? new Date(formData.endDate) : undefined,
       });
 
-      setFormData({ name: "", description: "", color: "#3B82F6" });
+      setFormData({ name: "", description: "", color: "#3B82F6", startDate: "", endDate: "" });
       onClose();
     } catch (error) {
       console.error("プロジェクト作成エラー:", error);
@@ -71,110 +81,144 @@ export function CreateProjectModal({
   };
 
   const handleClose = () => {
-    setFormData({ name: "", description: "", color: "#3B82F6" });
+    setFormData({ name: "", description: "", color: "#3B82F6", startDate: "", endDate: "" });
     setErrors({});
     onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="新規プロジェクト作成">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            プロジェクト名 <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="例: ウェブサイトリニューアル"
-            maxLength={100}
-          />
-          {errors.name && (
-            <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-          )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            説明（オプション）
-          </label>
-          <textarea
-            id="description"
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-            placeholder="プロジェクトの詳細を入力..."
-            maxLength={500}
-          />
-          <div className="flex justify-between mt-1">
-            {errors.description && (
-              <p className="text-sm text-red-600">{errors.description}</p>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>新規プロジェクト作成</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              プロジェクト名 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="例: ウェブサイトリニューアル"
+              maxLength={100}
+            />
+            {errors.name && (
+              <p className="mt-1 text-sm text-red-600">{errors.name}</p>
             )}
-            <p className="text-xs text-gray-500 ml-auto">
-              {formData.description.length}/500
-            </p>
           </div>
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            カラー
-          </label>
-          <div className="flex gap-2">
-            {PRESET_COLORS.map((color) => (
-              <button
-                key={color}
-                type="button"
-                onClick={() => setFormData({ ...formData, color })}
-                className={`w-10 h-10 rounded-lg transition-all ${
-                  formData.color === color
-                    ? "ring-2 ring-offset-2 ring-gray-900 scale-110"
-                    : "hover:scale-105"
-                }`}
-                style={{ backgroundColor: color }}
-                aria-label={`カラー ${color}`}
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              説明（オプション）
+            </label>
+            <textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              rows={3}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              placeholder="プロジェクトの詳細を入力..."
+              maxLength={500}
+            />
+            <div className="flex justify-between mt-1">
+              {errors.description && (
+                <p className="text-sm text-red-600">{errors.description}</p>
+              )}
+              <p className="text-xs text-gray-500 ml-auto">
+                {formData.description.length}/500
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              カラー
+            </label>
+            <div className="flex gap-2">
+              {PRESET_COLORS.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setFormData({ ...formData, color })}
+                  className={`w-10 h-10 rounded-lg transition-all ${
+                    formData.color === color
+                      ? "ring-2 ring-offset-2 ring-gray-900 scale-110"
+                      : "hover:scale-105"
+                  }`}
+                  style={{ backgroundColor: color }}
+                  aria-label={`カラー ${color}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="startDate"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                開始日（オプション）
+              </label>
+              <input
+                type="date"
+                id="startDate"
+                value={formData.startDate}
+                onChange={(e) =>
+                  setFormData({ ...formData, startDate: e.target.value })
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-            ))}
+            </div>
+            <div>
+              <label
+                htmlFor="endDate"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                終了日（オプション）
+              </label>
+              <input
+                type="date"
+                id="endDate"
+                value={formData.endDate}
+                onChange={(e) =>
+                  setFormData({ ...formData, endDate: e.target.value })
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
           </div>
-        </div>
 
-        {errors.submit && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-            <p className="text-sm text-red-800">{errors.submit}</p>
-          </div>
-        )}
+          {errors.submit && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <p className="text-sm text-red-800">{errors.submit}</p>
+            </div>
+          )}
 
-        <div className="flex gap-3 pt-4">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={handleClose}
-            className="flex-1"
-          >
-            キャンセル
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            isLoading={createProject.isPending}
-            className="flex-1"
-          >
-            作成
-          </Button>
-        </div>
-      </form>
-    </Modal>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={handleClose}>
+              キャンセル
+            </Button>
+            <Button type="submit" disabled={createProject.isPending}>
+              {createProject.isPending ? "作成中..." : "作成"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

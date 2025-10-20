@@ -10,7 +10,7 @@ export class ProjectService {
   static async list(userId: string) {
     return prisma.project.findMany({
       where: { ownerId: userId },
-      orderBy: { updatedAt: "desc" },
+      orderBy: { createdAt: "desc" },
     });
   }
 
@@ -44,6 +44,8 @@ export class ProjectService {
         name: input.name,
         description: input.description,
         color: input.color || "#3B82F6",
+        startDate: input.startDate,
+        endDate: input.endDate,
         ownerId: userId,
       },
     });
@@ -81,6 +83,8 @@ export class ProjectService {
         name: input.name,
         description: input.description,
         color: input.color,
+        startDate: input.startDate,
+        endDate: input.endDate,
         updatedAt: new Date(),
       },
     });
