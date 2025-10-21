@@ -1,21 +1,13 @@
 "use client";
 
-import type { Project } from "@prisma/client";
 import { format } from "date-fns";
 import { Edit2, Trash2, Calendar } from "lucide-react";
+import type { ProjectWithTaskStats } from "../types/project.types";
 
 interface ProjectCardProps {
-  project: Project;
+  project: ProjectWithTaskStats;
   onEdit: (projectId: string) => void;
   onDelete: (projectId: string) => void;
-}
-
-function getTaskStats() {
-  return {
-    notStarted: Math.floor(Math.random() * 3),
-    inProgress: Math.floor(Math.random() * 3),
-    completed: Math.floor(Math.random() * 3),
-  };
 }
 
 // 期間進捗率を計算
@@ -39,10 +31,7 @@ function calculateDateProgress(
 }
 
 export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
-  const stats = getTaskStats();
-  const totalTasks = stats.notStarted + stats.inProgress + stats.completed;
-  const taskProgress =
-    totalTasks > 0 ? Math.round((stats.completed / totalTasks) * 100) : 0;
+  const { taskStats, taskProgress, totalTasks } = project;
   const dateProgress = calculateDateProgress(
     project.startDate,
     project.endDate
@@ -97,7 +86,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-gray-400">タスク進捗</span>
             <span className="text-sm text-gray-300">
-              {stats.completed}/{totalTasks} ({taskProgress}%)
+              {taskStats.completed}/{totalTasks} ({taskProgress}%)
             </span>
           </div>
           <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
@@ -138,19 +127,19 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 
         {/* ステータスバッジ */}
         <div className="flex items-center gap-2 flex-wrap">
-          {stats.notStarted > 0 && (
+          {taskStats.notStarted > 0 && (
             <span className="px-3 py-1 bg-gray-700 text-gray-300 text-xs rounded-full">
-              {stats.notStarted} 未着手
+              {taskStats.notStarted} 未着手
             </span>
           )}
-          {stats.inProgress > 0 && (
+          {taskStats.inProgress > 0 && (
             <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
-              {stats.inProgress} 進行中
+              {taskStats.inProgress} 進行中
             </span>
           )}
-          {stats.completed > 0 && (
+          {taskStats.completed > 0 && (
             <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">
-              {stats.completed} 完了
+              {taskStats.completed} 完了
             </span>
           )}
         </div>

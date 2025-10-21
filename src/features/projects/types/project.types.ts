@@ -45,3 +45,17 @@ export const deleteProjectSchema = z.object({
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
 export type DeleteProjectInput = z.infer<typeof deleteProjectSchema>;
+
+// タスク統計情報の型
+export type TaskStats = {
+  notStarted: number;
+  inProgress: number;
+  completed: number;
+};
+
+// タスク統計を含むプロジェクト型
+export type ProjectWithTaskStats = Project & {
+  taskStats: TaskStats;
+  taskProgress: number;
+  totalTasks: number;
+};
