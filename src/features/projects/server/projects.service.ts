@@ -6,11 +6,45 @@ import type {
 } from "../types/project.types";
 
 export class ProjectService {
-  // プロジェクト一覧取得
+  // プロジェクト一覧取得（タスク統計を含む）
   static async list(userId: string) {
-    return prisma.project.findMany({
+    const projects = await prisma.project.findMany({
       where: { ownerId: userId },
       orderBy: { createdAt: "desc" },
+      include: {
+        tasks: {
+          select: {
+            status: true,
+          },
+        },
+      },
+    });
+
+    // タスク統計を計算してプロジェクトデータに追加
+    return projects.map((project) => {
+      const taskStats = {
+        notStarted: project.tasks.filter((task) => task.status === "未着手")
+          .length,
+        inProgress: project.tasks.filter((task) => task.status === "進行中")
+          .length,
+        completed: project.tasks.filter((task) => task.status === "完了").length,
+      };
+
+      const totalTasks =
+        taskStats.notStarted + taskStats.inProgress + taskStats.completed;
+      const taskProgress =
+        totalTasks > 0 ? Math.round((taskStats.completed / totalTasks) * 100) : 0;
+
+      // tasks プロパティを除外して返す
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { tasks, ...projectData } = project;
+
+      return {
+        ...projectData,
+        taskStats,
+        taskProgress,
+        totalTasks,
+      };
     });
   }
 
