@@ -33,7 +33,7 @@ const navigationTabs = [
     icon: GanttChart,
     href: "/dashboard/gantt",
   },
-  { id: "list", label: "リスト", icon: List, href: "/dashboard/list" },
+  { id: "list", label: "リスト", icon: List, href: "/dashboard/tasks" },
   {
     id: "projects",
     label: "プロジェクト",
