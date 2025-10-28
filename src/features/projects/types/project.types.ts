@@ -1,4 +1,4 @@
-import type { Project as PrismaProject } from "@prisma/client";
+import type { Project as PrismaProject, Prisma } from "@prisma/client";
 import { z } from "zod";
 
 // ============================================
@@ -59,3 +59,20 @@ export type ProjectWithTaskStats = Project & {
   taskProgress: number;
   totalTasks: number;
 };
+
+// ガントチャート用プロジェクト型（タスクと担当者を含む）
+export type ProjectWithTasks = Prisma.ProjectGetPayload<{
+  include: {
+    tasks: {
+      include: {
+        assignee: {
+          select: {
+            id: true;
+            name: true;
+            image: true;
+          };
+        };
+      };
+    };
+  };
+}>;

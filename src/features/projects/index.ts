@@ -20,5 +20,6 @@ export { useProjectStore } from "./store/projectStore";
 export type {
   CreateProjectInput,
   Project,
+  ProjectWithTasks,
   UpdateProjectInput,
 } from "./types/project.types";

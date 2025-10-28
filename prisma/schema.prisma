@@ -93,6 +93,7 @@ model Task {
   assignee       User      @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: Cascade)
   status         String    @default("未着手")
   priority       String    @default("中")
+  startDate      DateTime?
   dueDate        DateTime?
   estimatedHours Int?
   progress       Int       @default(0)
@@ -104,6 +105,7 @@ model Task {
   @@index([assigneeId])
   @@index([status])
   @@index([priority])
+  @@index([startDate])
   @@index([dueDate])
   @@map("tasks")
 }
