@@ -41,4 +41,9 @@ export const projectRouter = router({
     .mutation(async ({ input, ctx }) => {
       return ProjectService.delete(input.id, ctx.session.user.id!);
     }),
+
+  // ガントチャート用データ取得
+  getGanttData: protectedProcedure.query(async ({ ctx }) => {
+    return ProjectService.getGanttData(ctx.session.user.id!);
+  }),
 });

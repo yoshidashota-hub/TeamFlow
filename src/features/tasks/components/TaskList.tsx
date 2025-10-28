@@ -43,7 +43,7 @@ export function TaskList() {
           ステータス
         </div>
         <div className="text-xs font-medium text-gray-400 uppercase">優先度</div>
-        <div className="text-xs font-medium text-gray-400 uppercase">期限</div>
+        <div className="text-xs font-medium text-gray-400 uppercase">期間</div>
         <div className="text-xs font-medium text-gray-400 uppercase">進捗</div>
         <div className="text-xs font-medium text-gray-400 uppercase">操作</div>
       </div>

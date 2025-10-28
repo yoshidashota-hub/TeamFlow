@@ -131,11 +131,27 @@ export function TaskRow({ task }: TaskRowProps) {
         </span>
       </div>
 
-      {/* 期限 */}
+      {/* 期間 */}
       <div className="text-sm text-gray-300">
-        {task.dueDate
-          ? format(new Date(task.dueDate), "yyyy/MM/dd", { locale: ja })
-          : "-"}
+        {task.startDate || task.dueDate ? (
+          <div className="flex flex-col gap-0.5">
+            {task.startDate && (
+              <div className="text-xs text-gray-400">
+                {format(new Date(task.startDate), "yyyy/MM/dd", { locale: ja })}
+              </div>
+            )}
+            {task.startDate && task.dueDate && (
+              <div className="text-xs text-gray-500">〜</div>
+            )}
+            {task.dueDate && (
+              <div className="text-xs">
+                {format(new Date(task.dueDate), "yyyy/MM/dd", { locale: ja })}
+              </div>
+            )}
+          </div>
+        ) : (
+          "-"
+        )}
       </div>
 
       {/* 進捗 */}

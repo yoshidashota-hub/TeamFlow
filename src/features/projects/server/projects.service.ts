@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import type {
   CreateProjectInput,
   UpdateProjectInput,
+  ProjectWithTasks,
 } from "../types/project.types";
 
 export class ProjectService {
@@ -27,13 +28,16 @@ export class ProjectService {
           .length,
         inProgress: project.tasks.filter((task) => task.status === "進行中")
           .length,
-        completed: project.tasks.filter((task) => task.status === "完了").length,
+        completed: project.tasks.filter((task) => task.status === "完了")
+          .length,
       };
 
       const totalTasks =
         taskStats.notStarted + taskStats.inProgress + taskStats.completed;
       const taskProgress =
-        totalTasks > 0 ? Math.round((taskStats.completed / totalTasks) * 100) : 0;
+        totalTasks > 0
+          ? Math.round((taskStats.completed / totalTasks) * 100)
+          : 0;
 
       // tasks プロパティを除外して返す
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -151,5 +155,29 @@ export class ProjectService {
     });
 
     return { success: true };
+  }
+
+  // ガントチャート用データ取得
+  static async getGanttData(userId: string): Promise<ProjectWithTasks[]> {
+    const projects = await prisma.project.findMany({
+      where: { ownerId: userId },
+      orderBy: { startDate: "asc" },
+      include: {
+        tasks: {
+          include: {
+            assignee: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+              },
+            },
+          },
+          orderBy: { dueDate: "asc" },
+        },
+      },
+    });
+
+    return projects;
   }
 }

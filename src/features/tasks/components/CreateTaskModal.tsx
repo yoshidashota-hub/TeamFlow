@@ -26,6 +26,7 @@ export function CreateTaskModal() {
     assigneeId: string;
     status: string;
     priority: string;
+    startDate: string;
     dueDate: string;
     estimatedHours: string;
     tags: string;
@@ -36,6 +37,7 @@ export function CreateTaskModal() {
     assigneeId: "",
     status: TaskStatus.NOT_STARTED,
     priority: TaskPriority.MEDIUM,
+    startDate: "",
     dueDate: "",
     estimatedHours: "",
     tags: "",
@@ -51,6 +53,9 @@ export function CreateTaskModal() {
         assigneeId: task.assigneeId,
         status: task.status,
         priority: task.priority,
+        startDate: task.startDate
+          ? new Date(task.startDate).toISOString().split("T")[0]
+          : "",
         dueDate: task.dueDate
           ? new Date(task.dueDate).toISOString().split("T")[0]
           : "",
@@ -75,6 +80,7 @@ export function CreateTaskModal() {
       assigneeId: formData.assigneeId,
       status: formData.status,
       priority: formData.priority,
+      startDate: formData.startDate ? new Date(formData.startDate) : undefined,
       dueDate: formData.dueDate ? new Date(formData.dueDate) : undefined,
       estimatedHours: formData.estimatedHours
         ? parseInt(formData.estimatedHours)
@@ -98,6 +104,7 @@ export function CreateTaskModal() {
       assigneeId: "",
       status: TaskStatus.NOT_STARTED,
       priority: TaskPriority.MEDIUM,
+      startDate: "",
       dueDate: "",
       estimatedHours: "",
       tags: "",
@@ -258,8 +265,23 @@ export function CreateTaskModal() {
             </div>
           </div>
 
-          {/* 期限と見積時間 */}
+          {/* 開始日と期限 */}
           <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="task-startdate" className="block text-sm font-medium text-gray-300 mb-2">
+                開始日
+              </label>
+              <input
+                id="task-startdate"
+                type="date"
+                value={formData.startDate}
+                onChange={(e) =>
+                  setFormData({ ...formData, startDate: e.target.value })
+                }
+                className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              />
+            </div>
+
             <div>
               <label htmlFor="task-duedate" className="block text-sm font-medium text-gray-300 mb-2">
                 期限
@@ -274,23 +296,24 @@ export function CreateTaskModal() {
                 className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
               />
             </div>
+          </div>
 
-            <div>
-              <label htmlFor="task-hours" className="block text-sm font-medium text-gray-300 mb-2">
-                見積時間 (時間)
-              </label>
-              <input
-                id="task-hours"
-                type="number"
-                min="0"
-                value={formData.estimatedHours}
-                onChange={(e) =>
-                  setFormData({ ...formData, estimatedHours: e.target.value })
-                }
-                placeholder="0"
-                className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-              />
-            </div>
+          {/* 見積時間 */}
+          <div>
+            <label htmlFor="task-hours" className="block text-sm font-medium text-gray-300 mb-2">
+              見積時間 (時間)
+            </label>
+            <input
+              id="task-hours"
+              type="number"
+              min="0"
+              value={formData.estimatedHours}
+              onChange={(e) =>
+                setFormData({ ...formData, estimatedHours: e.target.value })
+              }
+              placeholder="0"
+              className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            />
           </div>
 
           {/* タグ */}
