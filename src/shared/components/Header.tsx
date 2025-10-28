@@ -47,7 +47,7 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-black border-b border-gray-800 sticky top-0 z-50">
+    <header className="sticky top-0 z-50 border-b border-gray-800 bg-black">
       {/* トップバー */}
       <div className="border-b border-gray-800">
         <div className="container mx-auto px-6 py-3">
@@ -55,16 +55,16 @@ export function Header() {
             {/* ロゴ */}
             <Link
               href="/dashboard"
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-2 transition-opacity hover:opacity-80"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-                <KanbanIcon className="w-6 h-6 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                <KanbanIcon className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                <h1 className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-lg font-bold text-transparent">
                   TeamFlow
                 </h1>
-                <p className="text-[10px] text-gray-500 leading-none">
+                <p className="text-[10px] leading-none text-gray-500">
                   タスク管理&コラボレーション
                 </p>
               </div>
@@ -74,22 +74,22 @@ export function Header() {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                className="relative p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+                className="relative rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
                 aria-label="通知"
               >
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+                <Bell className="h-5 w-5" />
+                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500"></span>
               </button>
 
               <button
                 type="button"
-                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
                 aria-label="チームメンバー"
               >
-                <Users className="w-5 h-5" />
+                <Users className="h-5 w-5" />
               </button>
 
-              <div className="flex items-center gap-2 pl-3 border-l border-gray-800">
+              <div className="flex items-center gap-2 border-l border-gray-800 pl-3">
                 {user?.image ? (
                   <Image
                     src={user.image}
@@ -99,13 +99,13 @@ export function Header() {
                     className="rounded-full"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500">
+                    <span className="text-sm font-semibold text-white">
                       {user?.name?.charAt(0).toUpperCase() || "G"}
                     </span>
                   </div>
                 )}
-                <span className="text-white text-sm font-medium">
+                <span className="text-sm font-medium text-white">
                   {user?.name || "Google User"}
                 </span>
               </div>
@@ -120,21 +120,20 @@ export function Header() {
           {navigationTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive =
-              pathname === tab.href ||
-              (tab.id === "projects" && pathname === "/dashboard");
+              pathname === tab.href || (tab.id === "projects" && pathname === "/dashboard");
 
             return (
               <Link
                 key={tab.id}
                 href={tab.href}
-                className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors relative ${
+                className={`relative flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
                   isActive ? "text-white" : "text-gray-400 hover:text-gray-300"
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="h-4 w-4" />
                 {tab.label}
                 {isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500" />
+                  <div className="absolute right-0 bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500" />
                 )}
               </Link>
             );

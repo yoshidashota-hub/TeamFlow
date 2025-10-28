@@ -128,11 +128,7 @@ export function GanttChart({ projects }: GanttChartProps) {
 
     // 月の初めに調整
     const timelineStart = new Date(start.getFullYear(), start.getMonth(), 1);
-    const timelineEnd = new Date(
-      end.getFullYear(),
-      end.getMonth() + 1,
-      0
-    );
+    const timelineEnd = new Date(end.getFullYear(), end.getMonth() + 1, 0);
 
     const months = generateMonths(timelineStart, timelineEnd);
 
@@ -147,11 +143,11 @@ export function GanttChart({ projects }: GanttChartProps) {
           <div className="w-80 flex-shrink-0 px-6 py-4">
             <h2 className="text-sm font-medium text-gray-400">タスク</h2>
           </div>
-          <div className="flex-1 flex">
+          <div className="flex flex-1">
             {months.map((month, index) => (
               <div
                 key={index}
-                className="flex-1 px-2 py-4 text-center text-sm text-gray-400 border-l border-gray-700"
+                className="flex-1 border-l border-gray-700 px-2 py-4 text-center text-sm text-gray-400"
               >
                 {month.label}
               </div>
@@ -163,21 +159,17 @@ export function GanttChart({ projects }: GanttChartProps) {
         {projects.map((project) => (
           <div key={project.id} className="border-b border-gray-800">
             {/* プロジェクトヘッダー */}
-            <div className="bg-gray-900/50 flex items-center py-4">
+            <div className="flex items-center bg-gray-900/50 py-4">
               <div className="w-80 flex-shrink-0 px-6">
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-6 h-6 rounded-lg flex-shrink-0"
+                    className="h-6 w-6 flex-shrink-0 rounded-lg"
                     style={{ backgroundColor: project.color }}
                   />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-semibold text-white truncate">
-                      {project.name}
-                    </h3>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="truncate text-base font-semibold text-white">{project.name}</h3>
                     {project.description && (
-                      <p className="text-xs text-gray-500 truncate">
-                        {project.description}
-                      </p>
+                      <p className="truncate text-xs text-gray-500">{project.description}</p>
                     )}
                   </div>
                 </div>
@@ -187,9 +179,7 @@ export function GanttChart({ projects }: GanttChartProps) {
 
             {/* タスク一覧 */}
             {project.tasks.length === 0 ? (
-              <div className="flex py-4 text-gray-500 text-sm px-6">
-                タスクがありません
-              </div>
+              <div className="flex px-6 py-4 text-sm text-gray-500">タスクがありません</div>
             ) : (
               project.tasks.map((task) => {
                 const taskBar = calculateTaskBar(
@@ -202,38 +192,33 @@ export function GanttChart({ projects }: GanttChartProps) {
                 return (
                   <div
                     key={task.id}
-                    className="flex items-center py-3 hover:bg-gray-800/30 transition-colors"
+                    className="flex items-center py-3 transition-colors hover:bg-gray-800/30"
                   >
                     {/* タスク名 */}
                     <div className="w-80 flex-shrink-0 px-6">
-                      <p className="text-sm text-gray-300 truncate">
-                        {task.title}
-                      </p>
+                      <p className="truncate text-sm text-gray-300">{task.title}</p>
                     </div>
 
                     {/* タイムライン */}
-                    <div className="flex-1 relative h-8">
+                    <div className="relative h-8 flex-1">
                       {/* グリッド線 */}
                       <div className="absolute inset-0 flex">
                         {months.map((_, index) => (
-                          <div
-                            key={index}
-                            className="flex-1 border-l border-gray-800"
-                          />
+                          <div key={index} className="flex-1 border-l border-gray-800" />
                         ))}
                       </div>
 
                       {/* タスクバー */}
                       {taskBar && (
                         <div
-                          className="absolute top-1/2 -translate-y-1/2 h-6 rounded-full px-2 flex items-center justify-center"
+                          className="absolute top-1/2 flex h-6 -translate-y-1/2 items-center justify-center rounded-full px-2"
                           style={{
                             left: taskBar.left,
                             width: taskBar.width,
                             backgroundColor: project.color,
                           }}
                         >
-                          <span className="text-xs text-white font-medium truncate">
+                          <span className="truncate text-xs font-medium text-white">
                             {task.title.length > 20
                               ? `${task.title.substring(0, 20)}...`
                               : task.title}

@@ -14,33 +14,25 @@ export const projectRouter = router({
   }),
 
   // プロジェクト取得（単体）
-  getById: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ input, ctx }) => {
-      return ProjectService.getById(input.id, ctx.session.user.id!);
-    }),
+  getById: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ input, ctx }) => {
+    return ProjectService.getById(input.id, ctx.session.user.id!);
+  }),
 
   // プロジェクト作成
-  create: protectedProcedure
-    .input(createProjectSchema)
-    .mutation(async ({ input, ctx }) => {
-      return ProjectService.create(input, ctx.session.user.id!);
-    }),
+  create: protectedProcedure.input(createProjectSchema).mutation(async ({ input, ctx }) => {
+    return ProjectService.create(input, ctx.session.user.id!);
+  }),
 
   // プロジェクト更新
-  update: protectedProcedure
-    .input(updateProjectSchema)
-    .mutation(async ({ input, ctx }) => {
-      const { id, ...data } = input;
-      return ProjectService.update(id, data, ctx.session.user.id!);
-    }),
+  update: protectedProcedure.input(updateProjectSchema).mutation(async ({ input, ctx }) => {
+    const { id, ...data } = input;
+    return ProjectService.update(id, data, ctx.session.user.id!);
+  }),
 
   // プロジェクト削除
-  delete: protectedProcedure
-    .input(deleteProjectSchema)
-    .mutation(async ({ input, ctx }) => {
-      return ProjectService.delete(input.id, ctx.session.user.id!);
-    }),
+  delete: protectedProcedure.input(deleteProjectSchema).mutation(async ({ input, ctx }) => {
+    return ProjectService.delete(input.id, ctx.session.user.id!);
+  }),
 
   // ガントチャート用データ取得
   getGanttData: protectedProcedure.query(async ({ ctx }) => {

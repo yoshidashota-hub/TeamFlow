@@ -10,8 +10,8 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 px-4">
-      <div className="w-full max-w-md p-8 bg-gray-900/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 px-4">
+      <div className="w-full max-w-md rounded-2xl border border-gray-800 bg-gray-900/50 p-8 shadow-2xl backdrop-blur-xl">
         <LoginForm />
       </div>
     </div>

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
 import { useProject } from "../hooks/useProjects";
 import { useDeleteProject } from "../hooks/useProjectMutations";
 import { AlertTriangle } from "lucide-react";
@@ -16,11 +11,7 @@ interface DeleteProjectModalProps {
   onClose: () => void;
 }
 
-export function DeleteProjectModal({
-  isOpen,
-  projectId,
-  onClose,
-}: DeleteProjectModalProps) {
+export function DeleteProjectModal({ isOpen, projectId, onClose }: DeleteProjectModalProps) {
   const { data: project } = useProject(projectId || "");
   const deleteProject = useDeleteProject();
 
@@ -41,18 +32,16 @@ export function DeleteProjectModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-md">
+      <DialogContent className="max-w-md border-gray-800 bg-gray-900 text-white">
         <DialogHeader>
-          <DialogTitle className="text-white text-xl">プロジェクトを削除</DialogTitle>
+          <DialogTitle className="text-xl text-white">プロジェクトを削除</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 mt-2">
-          <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4">
+        <div className="mt-2 space-y-4">
+          <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-400" />
               <div>
-                <h4 className="text-sm font-medium text-red-300">
-                  この操作は取り消せません
-                </h4>
+                <h4 className="text-sm font-medium text-red-300">この操作は取り消せません</h4>
                 <p className="mt-1.5 text-sm text-red-400">
                   プロジェクト「
                   <span className="font-semibold">{project.name}</span>
@@ -71,7 +60,7 @@ export function DeleteProjectModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors font-medium"
+            className="rounded-lg bg-gray-800 px-6 py-2.5 font-medium text-gray-300 transition-colors hover:bg-gray-700"
           >
             キャンセル
           </button>
@@ -79,7 +68,7 @@ export function DeleteProjectModal({
             type="button"
             onClick={handleDelete}
             disabled={deleteProject.isPending}
-            className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-lg bg-red-600 px-6 py-2.5 font-medium text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {deleteProject.isPending ? "削除中..." : "削除する"}
           </button>

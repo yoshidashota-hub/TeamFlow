@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Label } from "@/shared/components/ui/label";
 import { useCreateProject } from "../hooks/useProjectMutations";
 
 const PRESET_COLORS = [
@@ -27,10 +26,7 @@ interface CreateProjectModalProps {
   onClose: () => void;
 }
 
-export function CreateProjectModal({
-  isOpen,
-  onClose,
-}: CreateProjectModalProps) {
+export function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps) {
   const createProject = useCreateProject();
 
   const [formData, setFormData] = useState({
@@ -88,71 +84,54 @@ export function CreateProjectModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-lg">
+      <DialogContent className="max-w-lg border-gray-800 bg-gray-900 text-white">
         <DialogHeader>
-          <DialogTitle className="text-white text-xl">新規プロジェクト作成</DialogTitle>
+          <DialogTitle className="text-xl text-white">新規プロジェクト作成</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-5 mt-2">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-300 mb-2"
-            >
+        <form onSubmit={handleSubmit} className="mt-2 space-y-5">
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-gray-300">
               プロジェクト名
-            </label>
-            <input
-              type="text"
+            </Label>
+            <Input
               id="name"
               value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="プロジェクト名を入力"
               maxLength={100}
+              className="border-gray-700 bg-gray-800 text-white"
             />
-            {errors.name && (
-              <p className="mt-1.5 text-sm text-red-400">{errors.name}</p>
-            )}
+            {errors.name && <p className="text-sm text-red-400">{errors.name}</p>}
           </div>
 
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-300 mb-2"
-            >
+          <div className="space-y-2">
+            <Label htmlFor="description" className="text-gray-300">
               説明
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               id="description"
               value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
-              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all"
               placeholder="プロジェクトの詳細を入力"
               maxLength={500}
+              className="border-gray-700 bg-gray-800 text-white"
             />
-            {errors.description && (
-              <p className="mt-1.5 text-sm text-red-400">{errors.description}</p>
-            )}
+            {errors.description && <p className="text-sm text-red-400">{errors.description}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-3">
-              カラー
-            </label>
-            <div className="flex gap-2.5 flex-wrap">
+            <label className="mb-3 block text-sm font-medium text-gray-300">カラー</label>
+            <div className="flex flex-wrap gap-2.5">
               {PRESET_COLORS.map((color) => (
                 <button
                   key={color}
                   type="button"
                   onClick={() => setFormData({ ...formData, color })}
-                  className={`w-10 h-10 rounded-full transition-all ${
+                  className={`h-10 w-10 rounded-full transition-all ${
                     formData.color === color
-                      ? "ring-2 ring-offset-2 ring-offset-gray-900 ring-white scale-110"
-                      : "hover:scale-105 opacity-80 hover:opacity-100"
+                      ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-gray-900"
+                      : "opacity-80 hover:scale-105 hover:opacity-100"
                   }`}
                   style={{ backgroundColor: color }}
                   aria-label={`カラー ${color}`}
@@ -162,63 +141,50 @@ export function CreateProjectModal({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="startDate"
-                className="block text-sm font-medium text-gray-300 mb-2"
-              >
+            <div className="space-y-2">
+              <Label htmlFor="startDate" className="text-gray-300">
                 開始日
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 id="startDate"
                 value={formData.startDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, startDate: e.target.value })
-                }
-                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                className="border-gray-700 bg-gray-800 text-white"
               />
             </div>
-            <div>
-              <label
-                htmlFor="endDate"
-                className="block text-sm font-medium text-gray-300 mb-2"
-              >
+            <div className="space-y-2">
+              <Label htmlFor="endDate" className="text-gray-300">
                 終了日
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 id="endDate"
                 value={formData.endDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, endDate: e.target.value })
-                }
-                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                className="border-gray-700 bg-gray-800 text-white"
               />
             </div>
           </div>
 
           {errors.submit && (
-            <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-3">
+            <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-3">
               <p className="text-sm text-red-400">{errors.submit}</p>
             </div>
           )}
 
           <div className="flex justify-end gap-3 pt-4">
-            <button
-              type="button"
-              onClick={handleClose}
-              className="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors font-medium"
-            >
+            <Button type="button" variant="secondary" onClick={handleClose}>
               キャンセル
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
+              variant="primary"
+              loading={createProject.isPending}
               disabled={createProject.isPending}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {createProject.isPending ? "作成中..." : "作成"}
-            </button>
+            </Button>
           </div>
         </form>
       </DialogContent>

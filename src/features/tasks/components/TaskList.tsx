@@ -31,17 +31,13 @@ export function TaskList() {
   }
 
   return (
-    <div className="bg-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl">
       {/* テーブルヘッダー */}
-      <div className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-4 bg-white/[0.02] border-b border-white/10 py-3 px-4">
+      <div className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-4 border-b border-white/10 bg-white/[0.02] px-4 py-3">
         <div className="text-xs font-medium text-gray-400 uppercase">タスク</div>
-        <div className="text-xs font-medium text-gray-400 uppercase">
-          プロジェクト
-        </div>
+        <div className="text-xs font-medium text-gray-400 uppercase">プロジェクト</div>
         <div className="text-xs font-medium text-gray-400 uppercase">担当者</div>
-        <div className="text-xs font-medium text-gray-400 uppercase">
-          ステータス
-        </div>
+        <div className="text-xs font-medium text-gray-400 uppercase">ステータス</div>
         <div className="text-xs font-medium text-gray-400 uppercase">優先度</div>
         <div className="text-xs font-medium text-gray-400 uppercase">期間</div>
         <div className="text-xs font-medium text-gray-400 uppercase">進捗</div>

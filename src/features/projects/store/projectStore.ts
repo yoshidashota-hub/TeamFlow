@@ -13,8 +13,7 @@ export const useProjectStore = create<ProjectStore>()(
       (set) => ({
         selectedProjectId: null,
 
-        setSelectedProject: (projectId) =>
-          set({ selectedProjectId: projectId }),
+        setSelectedProject: (projectId) => set({ selectedProjectId: projectId }),
         clearSelectedProject: () => set({ selectedProjectId: null }),
       }),
       {

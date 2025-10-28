@@ -15,10 +15,11 @@ export function useTasks() {
 }
 
 export function useTask(taskId: string | null) {
-  const { data: task, isLoading, error } = trpc.tasks.getById.useQuery(
-    { id: taskId! },
-    { enabled: !!taskId }
-  );
+  const {
+    data: task,
+    isLoading,
+    error,
+  } = trpc.tasks.getById.useQuery({ id: taskId! }, { enabled: !!taskId });
 
   return {
     task,

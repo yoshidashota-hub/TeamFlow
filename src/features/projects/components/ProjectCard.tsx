@@ -2,6 +2,9 @@
 
 import { format } from "date-fns";
 import { Edit2, Trash2, Calendar } from "lucide-react";
+import { Button } from "@/shared/components/ui/button";
+import { Badge } from "@/shared/components/ui/badge";
+import { Progress } from "@/shared/components/ui/progress";
 import type { ProjectWithTaskStats } from "../types/project.types";
 
 interface ProjectCardProps {
@@ -11,10 +14,7 @@ interface ProjectCardProps {
 }
 
 // 期間進捗率を計算
-function calculateDateProgress(
-  startDate?: Date | null,
-  endDate?: Date | null
-): number {
+function calculateDateProgress(startDate?: Date | null, endDate?: Date | null): number {
   if (!startDate || !endDate) return 0;
 
   const now = new Date();
@@ -32,116 +32,91 @@ function calculateDateProgress(
 
 export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   const { taskStats, taskProgress, totalTasks } = project;
-  const dateProgress = calculateDateProgress(
-    project.startDate,
-    project.endDate
-  );
+  const dateProgress = calculateDateProgress(project.startDate, project.endDate);
 
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all hover:shadow-lg hover:shadow-purple-500/10">
+    <div className="overflow-hidden rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm transition-all hover:border-gray-600 hover:shadow-lg hover:shadow-purple-500/10">
       <div className="p-6">
         {/* ヘッダー */}
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-start gap-3 flex-1 min-w-0">
+        <div className="mb-4 flex items-start justify-between">
+          <div className="flex min-w-0 flex-1 items-start gap-3">
             {/* カラーアイコン */}
             <div
-              className="w-8 h-8 rounded-lg flex-shrink-0"
+              className="h-8 w-8 flex-shrink-0 rounded-lg"
               style={{ backgroundColor: project.color }}
             />
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-white truncate">
-                {project.name}
-              </h3>
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-lg font-semibold text-white">{project.name}</h3>
               {project.description && (
-                <p className="text-sm text-gray-400 line-clamp-2">
-                  {project.description}
-                </p>
+                <p className="line-clamp-2 text-sm text-gray-400">{project.description}</p>
               )}
             </div>
           </div>
 
           {/* アクションボタン */}
-          <div className="flex items-center gap-1 ml-3">
-            <button
-              type="button"
+          <div className="ml-3 flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => onEdit(project.id)}
-              className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded transition-colors"
               aria-label="編集"
+              className="text-gray-400 hover:bg-blue-500/10 hover:text-blue-400"
             >
-              <Edit2 className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
+              <Edit2 className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => onDelete(project.id)}
-              className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
               aria-label="削除"
+              className="text-gray-400 hover:bg-red-500/10 hover:text-red-400"
             >
-              <Trash2 className="w-4 h-4" />
-            </button>
+              <Trash2 className="h-4 w-4" />
+            </Button>
           </div>
         </div>
 
         {/* タスク進捗 */}
         <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <span className="text-sm text-gray-400">タスク進捗</span>
             <span className="text-sm text-gray-300">
               {taskStats.completed}/{totalTasks} ({taskProgress}%)
             </span>
           </div>
-          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-purple-500 to-purple-400 transition-all duration-300"
-              style={{ width: `${taskProgress}%` }}
-            />
-          </div>
+          <Progress value={taskProgress} className="h-2 bg-gray-700" />
         </div>
 
         {/* 期間進捗 */}
         <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <span className="text-sm text-gray-400">期間進捗</span>
             <span className="text-sm text-gray-300">{dateProgress}%</span>
           </div>
-          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-pink-500 to-pink-400 transition-all duration-300"
-              style={{ width: `${dateProgress}%` }}
-            />
-          </div>
+          <Progress value={dateProgress} className="h-2 bg-gray-700" />
         </div>
 
         {/* 日付範囲 */}
         {(project.startDate || project.endDate) && (
-          <div className="flex items-center gap-2 text-xs text-gray-400 mb-4">
-            <Calendar className="w-4 h-4" />
+          <div className="mb-4 flex items-center gap-2 text-xs text-gray-400">
+            <Calendar className="h-4 w-4" />
             {project.startDate && (
               <span>{format(new Date(project.startDate), "yyyy年M月d日")}</span>
             )}
             {project.startDate && project.endDate && <span>-</span>}
-            {project.endDate && (
-              <span>{format(new Date(project.endDate), "yyyy年M月d日")}</span>
-            )}
+            {project.endDate && <span>{format(new Date(project.endDate), "yyyy年M月d日")}</span>}
           </div>
         )}
 
         {/* ステータスバッジ */}
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-wrap items-center gap-2">
           {taskStats.notStarted > 0 && (
-            <span className="px-3 py-1 bg-gray-700 text-gray-300 text-xs rounded-full">
-              {taskStats.notStarted} 未着手
-            </span>
+            <Badge variant="notStarted">{taskStats.notStarted} 未着手</Badge>
           )}
           {taskStats.inProgress > 0 && (
-            <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
-              {taskStats.inProgress} 進行中
-            </span>
+            <Badge variant="inProgress">{taskStats.inProgress} 進行中</Badge>
           )}
-          {taskStats.completed > 0 && (
-            <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">
-              {taskStats.completed} 完了
-            </span>
-          )}
+          {taskStats.completed > 0 && <Badge variant="completed">{taskStats.completed} 完了</Badge>}
         </div>
       </div>
     </div>

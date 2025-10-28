@@ -7,7 +7,7 @@ export default function GanttPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-gray-400">読み込み中...</div>
       </div>
     );
@@ -15,14 +15,10 @@ export default function GanttPage() {
 
   if (!projects || projects.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-400 text-lg mb-2">
-            プロジェクトがありません
-          </p>
-          <p className="text-gray-500 text-sm">
-            プロジェクトを作成してください
-          </p>
+          <p className="mb-2 text-lg text-gray-400">プロジェクトがありません</p>
+          <p className="text-sm text-gray-500">プロジェクトを作成してください</p>
         </div>
       </div>
     );
