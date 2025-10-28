@@ -142,6 +142,7 @@ export class TaskService {
         assigneeId: input.assigneeId,
         status: input.status,
         priority: input.priority,
+        startDate: input.startDate,
         dueDate: input.dueDate,
         estimatedHours: input.estimatedHours,
         progress: input.progress,

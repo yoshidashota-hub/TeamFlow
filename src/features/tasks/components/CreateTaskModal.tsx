@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { useTaskStore } from "../store/taskStore";
 import { useCreateTask, useUpdateTask, useTask } from "../hooks/useTasks";
 import { trpc } from "@/shared/lib/trpc";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Label } from "@/shared/components/ui/label";
 import { X } from "lucide-react";
 import { TaskStatus, TaskPriority } from "../types";
 
@@ -141,11 +145,11 @@ export function CreateTaskModal() {
         {/* フォーム */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {/* タイトル */}
-          <div>
-            <label htmlFor="task-title" className="block text-sm font-medium text-gray-300 mb-2">
+          <div className="space-y-2">
+            <Label htmlFor="task-title" className="text-gray-300">
               タイトル
-            </label>
-            <input
+            </Label>
+            <Input
               id="task-title"
               type="text"
               required
@@ -154,16 +158,16 @@ export function CreateTaskModal() {
                 setFormData({ ...formData, title: e.target.value })
               }
               placeholder="タスクのタイトルを入力"
-              className="w-full bg-white/[0.02] border border-purple-500/50 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              className="bg-white/[0.02] border-purple-500/50 text-white"
             />
           </div>
 
           {/* 説明 */}
-          <div>
-            <label htmlFor="task-description" className="block text-sm font-medium text-gray-300 mb-2">
+          <div className="space-y-2">
+            <Label htmlFor="task-description" className="text-gray-300">
               説明
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               id="task-description"
               value={formData.description}
               onChange={(e) =>
@@ -171,7 +175,7 @@ export function CreateTaskModal() {
               }
               placeholder="タスクの詳細を入力"
               rows={3}
-              className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
+              className="bg-[#1A1A24] border-white/10 text-white"
             />
           </div>
 
@@ -267,88 +271,91 @@ export function CreateTaskModal() {
 
           {/* 開始日と期限 */}
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="task-startdate" className="block text-sm font-medium text-gray-300 mb-2">
+            <div className="space-y-2">
+              <Label htmlFor="task-startdate" className="text-gray-300">
                 開始日
-              </label>
-              <input
-                id="task-startdate"
+              </Label>
+              <Input
                 type="date"
+                id="task-startdate"
                 value={formData.startDate}
                 onChange={(e) =>
                   setFormData({ ...formData, startDate: e.target.value })
                 }
-                className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="bg-[#1A1A24] border-white/10 text-white"
               />
             </div>
 
-            <div>
-              <label htmlFor="task-duedate" className="block text-sm font-medium text-gray-300 mb-2">
+            <div className="space-y-2">
+              <Label htmlFor="task-duedate" className="text-gray-300">
                 期限
-              </label>
-              <input
-                id="task-duedate"
+              </Label>
+              <Input
                 type="date"
+                id="task-duedate"
                 value={formData.dueDate}
                 onChange={(e) =>
                   setFormData({ ...formData, dueDate: e.target.value })
                 }
-                className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="bg-[#1A1A24] border-white/10 text-white"
               />
             </div>
           </div>
 
           {/* 見積時間 */}
-          <div>
-            <label htmlFor="task-hours" className="block text-sm font-medium text-gray-300 mb-2">
+          <div className="space-y-2">
+            <Label htmlFor="task-hours" className="text-gray-300">
               見積時間 (時間)
-            </label>
-            <input
-              id="task-hours"
+            </Label>
+            <Input
               type="number"
+              id="task-hours"
               min="0"
               value={formData.estimatedHours}
               onChange={(e) =>
                 setFormData({ ...formData, estimatedHours: e.target.value })
               }
               placeholder="0"
-              className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              className="bg-[#1A1A24] border-white/10 text-white"
             />
           </div>
 
           {/* タグ */}
-          <div>
-            <label htmlFor="task-tags" className="block text-sm font-medium text-gray-300 mb-2">
+          <div className="space-y-2">
+            <Label htmlFor="task-tags" className="text-gray-300">
               タグ (カンマ区切り)
-            </label>
-            <input
-              id="task-tags"
+            </Label>
+            <Input
               type="text"
+              id="task-tags"
               value={formData.tags}
               onChange={(e) =>
                 setFormData({ ...formData, tags: e.target.value })
               }
               placeholder="例: デザイン, フロントエンド"
-              className="w-full bg-[#1A1A24] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              className="bg-[#1A1A24] border-white/10 text-white"
             />
           </div>
 
           {/* ボタン */}
           <div className="flex gap-3 pt-4">
-            <button
+            <Button
               type="button"
+              variant="secondary"
               onClick={handleClose}
-              className="flex-1 px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition-colors"
+              className="flex-1"
             >
               キャンセル
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
+              variant="primary"
               disabled={createTask.isPending || updateTask.isPending}
-              className="flex-1 px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              loading={createTask.isPending || updateTask.isPending}
+              className="flex-1"
             >
               {editingTaskId ? "更新" : "作成"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

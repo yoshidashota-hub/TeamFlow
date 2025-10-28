@@ -3,6 +3,8 @@
 import { useTaskFilters } from "../hooks/useTaskFilters";
 import { useAllTags } from "../hooks/useTasks";
 import { trpc } from "@/shared/lib/trpc";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
 import { Search, Filter } from "lucide-react";
 import { TaskStatus, TaskPriority } from "../types";
 import Image from "next/image";
@@ -64,30 +66,31 @@ export function TaskFilters() {
       {/* 検索バー */}
       <div className="flex items-center gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
-          <input
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400 z-10" />
+          <Input
             type="text"
             placeholder="タスクを検索..."
             value={filters.search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-xl py-3 px-12 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full bg-white/[0.02] backdrop-blur-xl border-white/10 text-white pl-12"
           />
         </div>
-        <button
+        <Button
           type="button"
+          variant="ghost"
           onClick={toggleDetailedFilters}
           aria-label={showDetailedFilters ? "詳細フィルターを非表示" : "詳細フィルターを表示"}
-          className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-colors ${
+          className={`gap-2 ${
             showDetailedFilters
               ? "bg-purple-500/10 border-purple-500/50 text-purple-400"
-              : "bg-white/[0.02] border-white/10 text-gray-400 hover:border-purple-500/50 hover:text-purple-400"
+              : "border-white/10 text-gray-400 hover:border-purple-500/50 hover:text-purple-400"
           }`}
         >
           <Filter className="w-5 h-5" />
           <span className="text-sm font-medium">
             {showDetailedFilters ? "詳細を非表示" : "詳細フィルター"}
           </span>
-        </button>
+        </Button>
       </div>
 
       {/* 詳細フィルター */}
@@ -98,19 +101,21 @@ export function TaskFilters() {
             <h3 className="text-sm font-medium text-gray-300 mb-3">ステータス</h3>
             <div className="flex flex-wrap gap-2">
               {Object.values(TaskStatus).map((status) => (
-                <button
+                <Button
                   key={status}
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleStatusToggle(status)}
                   aria-label={`ステータス: ${status}`}
-                  className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
+                  className={`${
                     filters.status.includes(status)
                       ? "bg-white/10 border-white/20 text-white"
                       : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   {status}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -120,19 +125,21 @@ export function TaskFilters() {
             <h3 className="text-sm font-medium text-gray-300 mb-3">優先度</h3>
             <div className="flex flex-wrap gap-2">
               {Object.values(TaskPriority).map((priority) => (
-                <button
+                <Button
                   key={priority}
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handlePriorityToggle(priority)}
                   aria-label={`優先度: ${priority}`}
-                  className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
+                  className={`${
                     filters.priority.includes(priority)
                       ? "bg-white/10 border-white/20 text-white"
                       : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   {priority}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -144,12 +151,14 @@ export function TaskFilters() {
             </h3>
             <div className="flex flex-wrap gap-2">
               {projects?.map((project) => (
-                <button
+                <Button
                   key={project.id}
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleProjectToggle(project.id)}
                   aria-label={`プロジェクト: ${project.name}`}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm transition-colors ${
+                  className={`gap-2 ${
                     filters.projectIds.includes(project.id)
                       ? "bg-white/10 border-white/20 text-white"
                       : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
@@ -160,7 +169,7 @@ export function TaskFilters() {
                     style={{ backgroundColor: project.color }}
                   />
                   {project.name}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -170,12 +179,14 @@ export function TaskFilters() {
             <h3 className="text-sm font-medium text-gray-300 mb-3">担当者</h3>
             <div className="flex flex-wrap gap-2">
               {users?.map((user) => (
-                <button
+                <Button
                   key={user.id}
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleAssigneeToggle(user.id)}
                   aria-label={`担当者: ${user.name}`}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm transition-colors ${
+                  className={`gap-2 ${
                     filters.assigneeIds.includes(user.id)
                       ? "bg-white/10 border-white/20 text-white"
                       : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
@@ -197,7 +208,7 @@ export function TaskFilters() {
                     </div>
                   )}
                   {user.name}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -207,19 +218,21 @@ export function TaskFilters() {
             <h3 className="text-sm font-medium text-gray-300 mb-3">タグ</h3>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
-                <button
+                <Button
                   key={tag}
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleTagToggle(tag)}
                   aria-label={`タグ: ${tag}`}
-                  className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
+                  className={`${
                     filters.tags.includes(tag)
                       ? "bg-white/10 border-white/20 text-white"
                       : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   {tag}
-                </button>
+                </Button>
               ))}
             </div>
           </div>

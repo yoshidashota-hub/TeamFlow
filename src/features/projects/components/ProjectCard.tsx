@@ -2,6 +2,9 @@
 
 import { format } from "date-fns";
 import { Edit2, Trash2, Calendar } from "lucide-react";
+import { Button } from "@/shared/components/ui/button";
+import { Badge } from "@/shared/components/ui/badge";
+import { Progress } from "@/shared/components/ui/progress";
 import type { ProjectWithTaskStats } from "../types/project.types";
 
 interface ProjectCardProps {
@@ -62,22 +65,24 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 
           {/* アクションボタン */}
           <div className="flex items-center gap-1 ml-3">
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => onEdit(project.id)}
-              className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded transition-colors"
               aria-label="編集"
+              className="text-gray-400 hover:text-blue-400 hover:bg-blue-500/10"
             >
               <Edit2 className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => onDelete(project.id)}
-              className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
               aria-label="削除"
+              className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
             >
               <Trash2 className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -89,12 +94,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
               {taskStats.completed}/{totalTasks} ({taskProgress}%)
             </span>
           </div>
-          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-purple-500 to-purple-400 transition-all duration-300"
-              style={{ width: `${taskProgress}%` }}
-            />
-          </div>
+          <Progress value={taskProgress} className="h-2 bg-gray-700" />
         </div>
 
         {/* 期間進捗 */}
@@ -103,12 +103,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
             <span className="text-sm text-gray-400">期間進捗</span>
             <span className="text-sm text-gray-300">{dateProgress}%</span>
           </div>
-          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-pink-500 to-pink-400 transition-all duration-300"
-              style={{ width: `${dateProgress}%` }}
-            />
-          </div>
+          <Progress value={dateProgress} className="h-2 bg-gray-700" />
         </div>
 
         {/* 日付範囲 */}
@@ -128,19 +123,19 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         {/* ステータスバッジ */}
         <div className="flex items-center gap-2 flex-wrap">
           {taskStats.notStarted > 0 && (
-            <span className="px-3 py-1 bg-gray-700 text-gray-300 text-xs rounded-full">
+            <Badge variant="notStarted">
               {taskStats.notStarted} 未着手
-            </span>
+            </Badge>
           )}
           {taskStats.inProgress > 0 && (
-            <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
+            <Badge variant="inProgress">
               {taskStats.inProgress} 進行中
-            </span>
+            </Badge>
           )}
           {taskStats.completed > 0 && (
-            <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">
+            <Badge variant="completed">
               {taskStats.completed} 完了
-            </span>
+            </Badge>
           )}
         </div>
       </div>
