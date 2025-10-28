@@ -36,15 +36,15 @@ export function TaskRow({ task }: TaskRowProps) {
   };
 
   return (
-    <div className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-4 items-center border-b border-white/5 py-4 px-4 hover:bg-white/[0.02] transition-colors">
+    <div className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1fr_1fr_1fr_0.5fr] items-center gap-4 border-b border-white/5 px-4 py-4 transition-colors hover:bg-white/[0.02]">
       {/* タスク */}
       <div>
-        <h3 className="text-sm font-medium text-white mb-1">{task.title}</h3>
+        <h3 className="mb-1 text-sm font-medium text-white">{task.title}</h3>
         <div className="flex gap-2">
           {task.tags.map((tag, index) => (
             <span
               key={index}
-              className="text-xs px-2 py-0.5 rounded-md bg-white/5 text-gray-300 border border-white/10"
+              className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-gray-300"
             >
               {tag}
             </span>
@@ -54,10 +54,7 @@ export function TaskRow({ task }: TaskRowProps) {
 
       {/* プロジェクト */}
       <div className="flex items-center gap-2">
-        <div
-          className="w-2 h-2 rounded-full"
-          style={{ backgroundColor: task.project.color }}
-        />
+        <div className="h-2 w-2 rounded-full" style={{ backgroundColor: task.project.color }} />
         <span className="text-sm text-gray-300">{task.project.name}</span>
       </div>
 
@@ -72,10 +69,8 @@ export function TaskRow({ task }: TaskRowProps) {
             className="rounded-full"
           />
         ) : (
-          <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
-            <span className="text-xs text-purple-400">
-              {task.assignee.name?.[0] || "?"}
-            </span>
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-500/20">
+            <span className="text-xs text-purple-400">{task.assignee.name?.[0] || "?"}</span>
           </div>
         )}
         <span className="text-sm text-gray-300">{task.assignee.name}</span>
@@ -83,16 +78,12 @@ export function TaskRow({ task }: TaskRowProps) {
 
       {/* ステータス */}
       <div>
-        <Badge variant={getStatusVariant(task.status)}>
-          {task.status}
-        </Badge>
+        <Badge variant={getStatusVariant(task.status)}>{task.status}</Badge>
       </div>
 
       {/* 優先度 */}
       <div>
-        <Badge variant={getPriorityVariant(task.priority)}>
-          {task.priority}
-        </Badge>
+        <Badge variant={getPriorityVariant(task.priority)}>{task.priority}</Badge>
       </div>
 
       {/* 期間 */}
@@ -104,9 +95,7 @@ export function TaskRow({ task }: TaskRowProps) {
                 {format(new Date(task.startDate), "yyyy/MM/dd", { locale: ja })}
               </div>
             )}
-            {task.startDate && task.dueDate && (
-              <div className="text-xs text-gray-500">〜</div>
-            )}
+            {task.startDate && task.dueDate && <div className="text-xs text-gray-500">〜</div>}
             {task.dueDate && (
               <div className="text-xs">
                 {format(new Date(task.dueDate), "yyyy/MM/dd", { locale: ja })}
@@ -120,17 +109,13 @@ export function TaskRow({ task }: TaskRowProps) {
 
       {/* 進捗 */}
       <div className="flex items-center gap-2">
-        <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+        <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/5">
           <div
-            className={`h-full ${getProgressColor(
-              task.progress
-            )} transition-all`}
+            className={`h-full ${getProgressColor(task.progress)} transition-all`}
             style={{ width: `${task.progress}%` }}
           />
         </div>
-        <span className="text-xs text-gray-400 w-8 text-right">
-          {task.progress}%
-        </span>
+        <span className="w-8 text-right text-xs text-gray-400">{task.progress}%</span>
       </div>
 
       {/* 操作 */}
@@ -142,7 +127,7 @@ export function TaskRow({ task }: TaskRowProps) {
           aria-label="タスクを編集"
           className="text-gray-400 hover:text-white"
         >
-          <Pencil className="w-4 h-4" />
+          <Pencil className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
@@ -151,7 +136,7 @@ export function TaskRow({ task }: TaskRowProps) {
           aria-label="タスクを削除"
           className="text-gray-400 hover:text-red-400"
         >
-          <Trash2 className="w-4 h-4" />
+          <Trash2 className="h-4 w-4" />
         </Button>
       </div>
     </div>

@@ -11,9 +11,7 @@ export function useTaskFilters() {
   const setAssigneeFilter = useTaskStore((state) => state.setAssigneeFilter);
   const setTagFilter = useTaskStore((state) => state.setTagFilter);
   const resetFilters = useTaskStore((state) => state.resetFilters);
-  const toggleDetailedFilters = useTaskStore(
-    (state) => state.toggleDetailedFilters
-  );
+  const toggleDetailedFilters = useTaskStore((state) => state.toggleDetailedFilters);
 
   return {
     filters,

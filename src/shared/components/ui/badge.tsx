@@ -1,22 +1,19 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/shared/lib/utils"
+import { cn } from "@/shared/lib/utils";
 
 const badgeVariants = cva(
   "inline-flex items-center justify-center rounded-full border px-3 py-1 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none transition-colors",
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+        default: "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
         secondary:
           "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
-        destructive:
-          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90",
-        outline:
-          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        destructive: "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90",
+        outline: "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
 
         // タスクステータス用
         notStarted: "bg-gray-500/10 text-gray-300 border-gray-500/20",
@@ -35,30 +32,23 @@ const badgeVariants = cva(
       variant: "default",
     },
   }
-)
+);
 
 function Badge({
   className,
   variant,
   asChild = false,
   ...props
-}: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot : "span"
+}: React.ComponentProps<"span"> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot : "span";
 
   return (
-    <Comp
-      data-slot="badge"
-      className={cn(badgeVariants({ variant }), className)}
-      {...props}
-    />
-  )
+    <Comp data-slot="badge" className={cn(badgeVariants({ variant }), className)} {...props} />
+  );
 }
 
 // ヘルパー関数: ステータス文字列からバリアントを取得
-export function getStatusVariant(
-  status: string
-): VariantProps<typeof badgeVariants>["variant"] {
+export function getStatusVariant(status: string): VariantProps<typeof badgeVariants>["variant"] {
   switch (status) {
     case "未着手":
       return "notStarted";
@@ -91,4 +81,4 @@ export function getPriorityVariant(
   }
 }
 
-export { Badge, badgeVariants }
+export { Badge, badgeVariants };

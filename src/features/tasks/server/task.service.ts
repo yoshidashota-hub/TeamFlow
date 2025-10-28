@@ -1,10 +1,6 @@
 import { prisma } from "@/shared/lib/prisma";
 import { TRPCError } from "@trpc/server";
-import type {
-  CreateTaskInput,
-  UpdateTaskInput,
-  GetTasksInput,
-} from "../types";
+import type { CreateTaskInput, UpdateTaskInput, GetTasksInput } from "../types";
 
 export class TaskService {
   // タスク一覧取得（検索・フィルター対応）

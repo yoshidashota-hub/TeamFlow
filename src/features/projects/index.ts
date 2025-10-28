@@ -6,11 +6,7 @@ export { ProjectCard } from "./components/ProjectCard";
 export { ProjectList } from "./components/ProjectList";
 
 // Hooks
-export {
-  useCreateProject,
-  useDeleteProject,
-  useUpdateProject,
-} from "./hooks/useProjectMutations";
+export { useCreateProject, useDeleteProject, useUpdateProject } from "./hooks/useProjectMutations";
 export { useProject, useProjects } from "./hooks/useProjects";
 
 // Store

@@ -26,7 +26,7 @@ export default function DashboardPage() {
   return (
     <>
       <main className="min-h-screen bg-black">
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="mx-auto max-w-7xl px-6 py-8">
           <ProjectsHeader onCreateClick={openCreateModal} />
 
           <div className="mt-8">
@@ -40,10 +40,7 @@ export default function DashboardPage() {
       </main>
 
       {/* Modals */}
-      <CreateProjectModal
-        isOpen={isCreateModalOpen}
-        onClose={closeCreateModal}
-      />
+      <CreateProjectModal isOpen={isCreateModalOpen} onClose={closeCreateModal} />
       <EditProjectModal
         isOpen={isEditModalOpen}
         projectId={selectedProjectId}

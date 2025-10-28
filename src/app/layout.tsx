@@ -6,11 +6,7 @@ export const metadata = {
   description: "Task management with real-time collaboration",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <body>

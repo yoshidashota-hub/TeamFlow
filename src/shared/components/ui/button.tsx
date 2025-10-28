@@ -12,12 +12,9 @@ const buttonVariants = cva(
           "bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white focus:ring-purple-500",
         secondary:
           "bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white border border-gray-700 focus:ring-gray-500",
-        danger:
-          "bg-red-600 hover:bg-red-500 text-white focus:ring-red-500",
-        ghost:
-          "bg-transparent hover:bg-white/5 text-gray-400 hover:text-white focus:ring-gray-500",
-        success:
-          "bg-green-600 hover:bg-green-500 text-white focus:ring-green-500",
+        danger: "bg-red-600 hover:bg-red-500 text-white focus:ring-red-500",
+        ghost: "bg-transparent hover:bg-white/5 text-gray-400 hover:text-white focus:ring-gray-500",
+        success: "bg-green-600 hover:bg-green-500 text-white focus:ring-green-500",
         outline:
           "border border-white/10 bg-transparent hover:bg-white/5 text-gray-300 hover:text-white focus:ring-gray-500",
       },
@@ -44,10 +41,7 @@ export interface ButtonProps
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, variant, size, asChild = false, loading, disabled, children, ...props },
-    ref
-  ) => {
+  ({ className, variant, size, asChild = false, loading, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
 
     return (
@@ -60,7 +54,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading && (
           <svg
-            className="animate-spin h-4 w-4"
+            className="h-4 w-4 animate-spin"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

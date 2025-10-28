@@ -65,14 +65,14 @@ export function TaskFilters() {
     <div className="space-y-4">
       {/* 検索バー */}
       <div className="flex items-center gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400 z-10" />
+        <div className="relative flex-1">
+          <Search className="absolute top-1/2 left-4 z-10 h-5 w-5 -translate-y-1/2 text-purple-400" />
           <Input
             type="text"
             placeholder="タスクを検索..."
             value={filters.search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white/[0.02] backdrop-blur-xl border-white/10 text-white pl-12"
+            className="w-full border-white/10 bg-white/[0.02] pl-12 text-white backdrop-blur-xl"
           />
         </div>
         <Button
@@ -82,11 +82,11 @@ export function TaskFilters() {
           aria-label={showDetailedFilters ? "詳細フィルターを非表示" : "詳細フィルターを表示"}
           className={`gap-2 ${
             showDetailedFilters
-              ? "bg-purple-500/10 border-purple-500/50 text-purple-400"
+              ? "border-purple-500/50 bg-purple-500/10 text-purple-400"
               : "border-white/10 text-gray-400 hover:border-purple-500/50 hover:text-purple-400"
           }`}
         >
-          <Filter className="w-5 h-5" />
+          <Filter className="h-5 w-5" />
           <span className="text-sm font-medium">
             {showDetailedFilters ? "詳細を非表示" : "詳細フィルター"}
           </span>
@@ -95,10 +95,10 @@ export function TaskFilters() {
 
       {/* 詳細フィルター */}
       {showDetailedFilters && (
-        <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-xl p-6 space-y-6">
+        <div className="space-y-6 rounded-xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-xl">
           {/* ステータス */}
           <div>
-            <h3 className="text-sm font-medium text-gray-300 mb-3">ステータス</h3>
+            <h3 className="mb-3 text-sm font-medium text-gray-300">ステータス</h3>
             <div className="flex flex-wrap gap-2">
               {Object.values(TaskStatus).map((status) => (
                 <Button
@@ -110,8 +110,8 @@ export function TaskFilters() {
                   aria-label={`ステータス: ${status}`}
                   className={`${
                     filters.status.includes(status)
-                      ? "bg-white/10 border-white/20 text-white"
-                      : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
+                      ? "border-white/20 bg-white/10 text-white"
+                      : "border-white/10 bg-white/[0.02] text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   {status}
@@ -122,7 +122,7 @@ export function TaskFilters() {
 
           {/* 優先度 */}
           <div>
-            <h3 className="text-sm font-medium text-gray-300 mb-3">優先度</h3>
+            <h3 className="mb-3 text-sm font-medium text-gray-300">優先度</h3>
             <div className="flex flex-wrap gap-2">
               {Object.values(TaskPriority).map((priority) => (
                 <Button
@@ -134,8 +134,8 @@ export function TaskFilters() {
                   aria-label={`優先度: ${priority}`}
                   className={`${
                     filters.priority.includes(priority)
-                      ? "bg-white/10 border-white/20 text-white"
-                      : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
+                      ? "border-white/20 bg-white/10 text-white"
+                      : "border-white/10 bg-white/[0.02] text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   {priority}
@@ -146,9 +146,7 @@ export function TaskFilters() {
 
           {/* プロジェクト */}
           <div>
-            <h3 className="text-sm font-medium text-gray-300 mb-3">
-              プロジェクト
-            </h3>
+            <h3 className="mb-3 text-sm font-medium text-gray-300">プロジェクト</h3>
             <div className="flex flex-wrap gap-2">
               {projects?.map((project) => (
                 <Button
@@ -160,12 +158,12 @@ export function TaskFilters() {
                   aria-label={`プロジェクト: ${project.name}`}
                   className={`gap-2 ${
                     filters.projectIds.includes(project.id)
-                      ? "bg-white/10 border-white/20 text-white"
-                      : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
+                      ? "border-white/20 bg-white/10 text-white"
+                      : "border-white/10 bg-white/[0.02] text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   <div
-                    className="w-2 h-2 rounded-full"
+                    className="h-2 w-2 rounded-full"
                     style={{ backgroundColor: project.color }}
                   />
                   {project.name}
@@ -176,7 +174,7 @@ export function TaskFilters() {
 
           {/* 担当者 */}
           <div>
-            <h3 className="text-sm font-medium text-gray-300 mb-3">担当者</h3>
+            <h3 className="mb-3 text-sm font-medium text-gray-300">担当者</h3>
             <div className="flex flex-wrap gap-2">
               {users?.map((user) => (
                 <Button
@@ -188,8 +186,8 @@ export function TaskFilters() {
                   aria-label={`担当者: ${user.name}`}
                   className={`gap-2 ${
                     filters.assigneeIds.includes(user.id)
-                      ? "bg-white/10 border-white/20 text-white"
-                      : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
+                      ? "border-white/20 bg-white/10 text-white"
+                      : "border-white/10 bg-white/[0.02] text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   {user.image ? (
@@ -201,10 +199,8 @@ export function TaskFilters() {
                       className="rounded-full"
                     />
                   ) : (
-                    <div className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center">
-                      <span className="text-xs text-purple-400">
-                        {user.name?.[0] || "?"}
-                      </span>
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-purple-500/20">
+                      <span className="text-xs text-purple-400">{user.name?.[0] || "?"}</span>
                     </div>
                   )}
                   {user.name}
@@ -215,7 +211,7 @@ export function TaskFilters() {
 
           {/* タグ */}
           <div>
-            <h3 className="text-sm font-medium text-gray-300 mb-3">タグ</h3>
+            <h3 className="mb-3 text-sm font-medium text-gray-300">タグ</h3>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
                 <Button
@@ -227,8 +223,8 @@ export function TaskFilters() {
                   aria-label={`タグ: ${tag}`}
                   className={`${
                     filters.tags.includes(tag)
-                      ? "bg-white/10 border-white/20 text-white"
-                      : "bg-white/[0.02] border-white/10 text-gray-400 hover:bg-white/5"
+                      ? "border-white/20 bg-white/10 text-white"
+                      : "border-white/10 bg-white/[0.02] text-gray-400 hover:bg-white/5"
                   }`}
                 >
                   {tag}

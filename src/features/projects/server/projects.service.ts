@@ -24,20 +24,14 @@ export class ProjectService {
     // タスク統計を計算してプロジェクトデータに追加
     return projects.map((project) => {
       const taskStats = {
-        notStarted: project.tasks.filter((task) => task.status === "未着手")
-          .length,
-        inProgress: project.tasks.filter((task) => task.status === "進行中")
-          .length,
-        completed: project.tasks.filter((task) => task.status === "完了")
-          .length,
+        notStarted: project.tasks.filter((task) => task.status === "未着手").length,
+        inProgress: project.tasks.filter((task) => task.status === "進行中").length,
+        completed: project.tasks.filter((task) => task.status === "完了").length,
       };
 
-      const totalTasks =
-        taskStats.notStarted + taskStats.inProgress + taskStats.completed;
+      const totalTasks = taskStats.notStarted + taskStats.inProgress + taskStats.completed;
       const taskProgress =
-        totalTasks > 0
-          ? Math.round((taskStats.completed / totalTasks) * 100)
-          : 0;
+        totalTasks > 0 ? Math.round((taskStats.completed / totalTasks) * 100) : 0;
 
       // tasks プロパティを除外して返す
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -90,11 +84,7 @@ export class ProjectService {
   }
 
   // プロジェクト更新
-  static async update(
-    id: string,
-    input: Partial<UpdateProjectInput>,
-    userId: string
-  ) {
+  static async update(id: string, input: Partial<UpdateProjectInput>, userId: string) {
     // 権限チェック
     const project = await prisma.project.findUnique({
       where: { id },

@@ -7,7 +7,7 @@ export function UserAvatar() {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse" />;
+    return <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200" />;
   }
 
   if (!user) {
@@ -25,7 +25,7 @@ export function UserAvatar() {
           className="rounded-full"
         />
       ) : (
-        <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 font-semibold text-white">
           {user.name?.charAt(0).toUpperCase() || "U"}
         </div>
       )}
