@@ -1,9 +1,13 @@
 "use client";
 
 import { GanttChart, useGanttData } from "@/features/gantt";
+import { CreateTaskModal } from "@/features/tasks/components/CreateTaskModal";
+import { useTaskStore } from "@/features/tasks/store/taskStore";
+import { Plus } from "lucide-react";
 
 export default function GanttPage() {
   const { data: projects, isLoading } = useGanttData();
+  const openCreateModal = useTaskStore((state) => state.openCreateModal);
 
   if (isLoading) {
     return (
@@ -15,6 +19,14 @@ export default function GanttPage() {
               <h1 className="mb-2 text-3xl font-bold text-white">ガントチャート</h1>
               <p className="text-gray-400">プロジェクトのスケジュールを可視化</p>
             </div>
+            <button
+              type="button"
+              onClick={openCreateModal}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-2.5 font-medium text-white shadow-lg transition-all hover:from-blue-600 hover:to-purple-600 hover:shadow-xl"
+            >
+              <Plus className="h-5 w-5" />
+              新規タスク
+            </button>
           </div>
 
           <div className="overflow-x-auto">
@@ -94,6 +106,14 @@ export default function GanttPage() {
               <h1 className="mb-2 text-3xl font-bold text-white">ガントチャート</h1>
               <p className="text-gray-400">プロジェクトのスケジュールを可視化</p>
             </div>
+            <button
+              type="button"
+              onClick={openCreateModal}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-2.5 font-medium text-white shadow-lg transition-all hover:from-blue-600 hover:to-purple-600 hover:shadow-xl"
+            >
+              <Plus className="h-5 w-5" />
+              新規タスク
+            </button>
           </div>
 
           <div className="rounded-lg border-2 border-dashed border-gray-700 bg-gray-800/30 p-12 text-center">
@@ -127,11 +147,22 @@ export default function GanttPage() {
             <h1 className="mb-2 text-3xl font-bold text-white">ガントチャート</h1>
             <p className="text-gray-400">プロジェクトのスケジュールを可視化</p>
           </div>
+          <button
+            type="button"
+            onClick={openCreateModal}
+            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-2.5 font-medium text-white shadow-lg transition-all hover:from-blue-600 hover:to-purple-600 hover:shadow-xl"
+          >
+            <Plus className="h-5 w-5" />
+            新規タスク
+          </button>
         </div>
 
         {/* ガントチャート */}
         <GanttChart projects={projects} />
       </div>
+
+      {/* タスク作成モーダル */}
+      <CreateTaskModal />
     </div>
   );
 }
