@@ -1,7 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
-import { Edit2, Trash2, Calendar } from "lucide-react";
+import { Edit, Trash2, Calendar } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Badge } from "@/shared/components/ui/badge";
 import { Progress } from "@/shared/components/ui/progress";
@@ -35,7 +35,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   const dateProgress = calculateDateProgress(project.startDate, project.endDate);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm transition-all hover:border-gray-600 hover:shadow-lg hover:shadow-purple-500/10">
+    <div className="overflow-hidden rounded-xl border border-white/5 bg-[#111114] backdrop-blur-sm transition-colors hover:border-[#6465f0] hover:bg-white/[0.02]">
       <div className="p-6">
         {/* ヘッダー */}
         <div className="mb-4 flex items-start justify-between">
@@ -62,7 +62,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
               aria-label="編集"
               className="text-gray-400 hover:bg-blue-500/10 hover:text-blue-400"
             >
-              <Edit2 className="h-4 w-4" />
+              <Edit className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
@@ -84,7 +84,11 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
               {taskStats.completed}/{totalTasks} ({taskProgress}%)
             </span>
           </div>
-          <Progress value={taskProgress} className="h-2 bg-gray-700" />
+          <Progress
+            value={taskProgress}
+            className="h-2 bg-gray-900"
+            indicatorClassName="bg-gradient-to-r from-purple-500 to-purple-400"
+          />
         </div>
 
         {/* 期間進捗 */}
@@ -93,7 +97,11 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
             <span className="text-sm text-gray-400">期間進捗</span>
             <span className="text-sm text-gray-300">{dateProgress}%</span>
           </div>
-          <Progress value={dateProgress} className="h-2 bg-gray-700" />
+          <Progress
+            value={dateProgress}
+            className="h-2 bg-gray-900"
+            indicatorClassName="bg-gradient-to-r from-pink-500 to-pink-400"
+          />
         </div>
 
         {/* 日付範囲 */}
