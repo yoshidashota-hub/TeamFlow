@@ -38,7 +38,7 @@ const navigationTabs = [
     id: "projects",
     label: "プロジェクト",
     icon: FolderKanban,
-    href: "/dashboard/",
+    href: "/dashboard/projects",
   },
 ];
 
@@ -120,7 +120,9 @@ export function Header() {
           {navigationTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive =
-              pathname === tab.href || (tab.id === "projects" && pathname === "/dashboard");
+              tab.id === "dashboard"
+                ? pathname === tab.href
+                : pathname.startsWith(tab.href);
 
             return (
               <Link
