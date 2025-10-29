@@ -8,7 +8,15 @@ export default function GanttPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0A0A0F] p-8">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px] space-y-6">
+          {/* ヘッダー */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="mb-2 text-3xl font-bold text-white">ガントチャート</h1>
+              <p className="text-gray-400">プロジェクトのスケジュールを可視化</p>
+            </div>
+          </div>
+
           <div className="overflow-x-auto">
             <div className="min-w-[1200px]">
               {/* ヘッダースケルトン */}
@@ -79,7 +87,15 @@ export default function GanttPage() {
   if (!projects || projects.length === 0) {
     return (
       <div className="min-h-screen bg-[#0A0A0F] p-8">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px] space-y-6">
+          {/* ヘッダー */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="mb-2 text-3xl font-bold text-white">ガントチャート</h1>
+              <p className="text-gray-400">プロジェクトのスケジュールを可視化</p>
+            </div>
+          </div>
+
           <div className="rounded-lg border-2 border-dashed border-gray-700 bg-gray-800/30 p-12 text-center">
             <svg
               className="mx-auto mb-4 h-16 w-16 text-gray-600"
@@ -104,7 +120,16 @@ export default function GanttPage() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] p-8">
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto max-w-[1400px] space-y-6">
+        {/* ヘッダー */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="mb-2 text-3xl font-bold text-white">ガントチャート</h1>
+            <p className="text-gray-400">プロジェクトのスケジュールを可視化</p>
+          </div>
+        </div>
+
+        {/* ガントチャート */}
         <GanttChart projects={projects} />
       </div>
     </div>
