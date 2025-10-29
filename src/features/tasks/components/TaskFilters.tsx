@@ -5,9 +5,9 @@ import { useAllTags } from "../hooks/useTasks";
 import { trpc } from "@/shared/lib/trpc";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
+import { UserAvatar } from "@/shared/components/ui/user-avatar";
 import { Search, Filter } from "lucide-react";
 import { TaskStatus, TaskPriority } from "../types";
-import Image from "next/image";
 
 export function TaskFilters() {
   const {
@@ -190,20 +190,7 @@ export function TaskFilters() {
                       : "border-white/10 bg-white/[0.02] text-gray-400 hover:bg-white/5"
                   }`}
                 >
-                  {user.image ? (
-                    <Image
-                      src={user.image}
-                      alt={user.name || ""}
-                      width={20}
-                      height={20}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-purple-500/20">
-                      <span className="text-xs text-purple-400">{user.name?.[0] || "?"}</span>
-                    </div>
-                  )}
-                  {user.name}
+                  <UserAvatar image={user.image} name={user.name} size="sm" showName />
                 </Button>
               ))}
             </div>

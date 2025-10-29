@@ -5,21 +5,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/compo
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { Label } from "@/shared/components/ui/label";
+import { FormField } from "@/shared/components/ui/form-field";
+import { ColorPicker } from "@/shared/components/ui/color-picker";
 import { useCreateProject } from "../hooks/useProjectMutations";
-
-const PRESET_COLORS = [
-  "#3B82F6", // 青
-  "#10B981", // 緑
-  "#F59E0B", // 黄
-  "#EF4444", // 赤
-  "#8B5CF6", // 紫
-  "#EC4899", // ピンク
-  "#14B8A6", // シアン
-  "#F97316", // オレンジ
-  "#6366F1", // インディゴ
-  "#84CC16", // ライムグリーン
-];
 
 interface CreateProjectModalProps {
   isOpen: boolean;
@@ -89,10 +77,7 @@ export function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps)
           <DialogTitle className="text-xl text-white">新規プロジェクト作成</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="mt-2 space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-gray-300">
-              プロジェクト名
-            </Label>
+          <FormField label="プロジェクト名" htmlFor="name" error={errors.name} required>
             <Input
               id="name"
               value={formData.name}
@@ -101,13 +86,9 @@ export function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps)
               maxLength={100}
               className="border-gray-700 bg-gray-800 text-white"
             />
-            {errors.name && <p className="text-sm text-red-400">{errors.name}</p>}
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="description" className="text-gray-300">
-              説明
-            </Label>
+          <FormField label="説明" htmlFor="description" error={errors.description}>
             <Textarea
               id="description"
               value={formData.description}
@@ -117,34 +98,18 @@ export function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps)
               maxLength={500}
               className="border-gray-700 bg-gray-800 text-white"
             />
-            {errors.description && <p className="text-sm text-red-400">{errors.description}</p>}
-          </div>
+          </FormField>
 
           <div>
             <label className="mb-3 block text-sm font-medium text-gray-300">カラー</label>
-            <div className="flex flex-wrap gap-2.5">
-              {PRESET_COLORS.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  onClick={() => setFormData({ ...formData, color })}
-                  className={`h-10 w-10 rounded-full transition-all ${
-                    formData.color === color
-                      ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-gray-900"
-                      : "opacity-80 hover:scale-105 hover:opacity-100"
-                  }`}
-                  style={{ backgroundColor: color }}
-                  aria-label={`カラー ${color}`}
-                />
-              ))}
-            </div>
+            <ColorPicker
+              value={formData.color}
+              onChange={(color) => setFormData({ ...formData, color })}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="startDate" className="text-gray-300">
-                開始日
-              </Label>
+            <FormField label="開始日" htmlFor="startDate">
               <Input
                 type="date"
                 id="startDate"
@@ -152,11 +117,8 @@ export function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps)
                 onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
                 className="border-gray-700 bg-gray-800 text-white"
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="endDate" className="text-gray-300">
-                終了日
-              </Label>
+            </FormField>
+            <FormField label="終了日" htmlFor="endDate">
               <Input
                 type="date"
                 id="endDate"
@@ -164,7 +126,7 @@ export function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps)
                 onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
                 className="border-gray-700 bg-gray-800 text-white"
               />
-            </div>
+            </FormField>
           </div>
 
           {errors.submit && (
