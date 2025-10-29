@@ -5,10 +5,10 @@ import { useDeleteTask } from "../hooks/useTasks";
 import { useTaskStore } from "../store/taskStore";
 import { Button } from "@/shared/components/ui/button";
 import { Badge, getStatusVariant, getPriorityVariant } from "@/shared/components/ui/badge";
+import { UserAvatar } from "@/shared/components/ui/user-avatar";
 import { Pencil, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import Image from "next/image";
 
 interface TaskRowProps {
   task: TaskWithRelations;
@@ -59,22 +59,12 @@ export function TaskRow({ task }: TaskRowProps) {
       </div>
 
       {/* 担当者 */}
-      <div className="flex items-center gap-2">
-        {task.assignee.image ? (
-          <Image
-            src={task.assignee.image}
-            alt={task.assignee.name || ""}
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-        ) : (
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-500/20">
-            <span className="text-xs text-purple-400">{task.assignee.name?.[0] || "?"}</span>
-          </div>
-        )}
-        <span className="text-sm text-gray-300">{task.assignee.name}</span>
-      </div>
+      <UserAvatar
+        image={task.assignee.image}
+        name={task.assignee.name}
+        size="md"
+        showName
+      />
 
       {/* ステータス */}
       <div>

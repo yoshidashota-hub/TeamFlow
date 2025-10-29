@@ -5,22 +5,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/compo
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { Label } from "@/shared/components/ui/label";
+import { FormField } from "@/shared/components/ui/form-field";
+import { ColorPicker } from "@/shared/components/ui/color-picker";
 import { useProject } from "../hooks/useProjects";
 import { useUpdateProject } from "../hooks/useProjectMutations";
-
-const PRESET_COLORS = [
-  "#3B82F6", // 青
-  "#10B981", // 緑
-  "#F59E0B", // 黄
-  "#EF4444", // 赤
-  "#8B5CF6", // 紫
-  "#EC4899", // ピンク
-  "#14B8A6", // シアン
-  "#F97316", // オレンジ
-  "#6366F1", // インディゴ
-  "#84CC16", // ライムグリーン
-];
 
 interface EditProjectModalProps {
   isOpen: boolean;
@@ -109,10 +97,7 @@ export function EditProjectModal({ isOpen, projectId, onClose }: EditProjectModa
           <DialogTitle className="text-xl text-white">プロジェクトを編集</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="mt-2 space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="edit-name" className="text-gray-300">
-              プロジェクト名
-            </Label>
+          <FormField label="プロジェクト名" htmlFor="edit-name" error={errors.name} required>
             <Input
               id="edit-name"
               value={formData.name}
@@ -120,13 +105,9 @@ export function EditProjectModal({ isOpen, projectId, onClose }: EditProjectModa
               maxLength={100}
               className="border-gray-700 bg-gray-800 text-white"
             />
-            {errors.name && <p className="text-sm text-red-400">{errors.name}</p>}
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="edit-description" className="text-gray-300">
-              説明
-            </Label>
+          <FormField label="説明" htmlFor="edit-description" error={errors.description}>
             <Textarea
               id="edit-description"
               value={formData.description}
@@ -135,34 +116,18 @@ export function EditProjectModal({ isOpen, projectId, onClose }: EditProjectModa
               maxLength={500}
               className="border-gray-700 bg-gray-800 text-white"
             />
-            {errors.description && <p className="text-sm text-red-400">{errors.description}</p>}
-          </div>
+          </FormField>
 
           <div>
             <label className="mb-3 block text-sm font-medium text-gray-300">カラー</label>
-            <div className="flex flex-wrap gap-2.5">
-              {PRESET_COLORS.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  title={`カラー ${color}`}
-                  onClick={() => setFormData({ ...formData, color })}
-                  className={`h-10 w-10 rounded-full transition-all ${
-                    formData.color === color
-                      ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-gray-900"
-                      : "opacity-80 hover:scale-105 hover:opacity-100"
-                  }`}
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-            </div>
+            <ColorPicker
+              value={formData.color}
+              onChange={(color) => setFormData({ ...formData, color })}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="edit-startDate" className="text-gray-300">
-                開始日
-              </Label>
+            <FormField label="開始日" htmlFor="edit-startDate">
               <Input
                 type="date"
                 id="edit-startDate"
@@ -170,11 +135,8 @@ export function EditProjectModal({ isOpen, projectId, onClose }: EditProjectModa
                 onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
                 className="border-gray-700 bg-gray-800 text-white"
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="edit-endDate" className="text-gray-300">
-                終了日
-              </Label>
+            </FormField>
+            <FormField label="終了日" htmlFor="edit-endDate">
               <Input
                 type="date"
                 id="edit-endDate"
@@ -182,7 +144,7 @@ export function EditProjectModal({ isOpen, projectId, onClose }: EditProjectModa
                 onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
                 className="border-gray-700 bg-gray-800 text-white"
               />
-            </div>
+            </FormField>
           </div>
 
           {errors.submit && (
