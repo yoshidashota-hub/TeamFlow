@@ -1,6 +1,6 @@
 "use client";
 
-import { format } from "date-fns";
+import { format, isBefore, isAfter, differenceInMilliseconds } from "date-fns";
 import { Edit, Trash2, Calendar } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Badge } from "@/shared/components/ui/badge";
@@ -18,14 +18,12 @@ function calculateDateProgress(startDate?: Date | null, endDate?: Date | null): 
   if (!startDate || !endDate) return 0;
 
   const now = new Date();
-  const start = new Date(startDate);
-  const end = new Date(endDate);
 
-  if (now < start) return 0;
-  if (now > end) return 100;
+  if (isBefore(now, startDate)) return 0;
+  if (isAfter(now, endDate)) return 100;
 
-  const total = end.getTime() - start.getTime();
-  const elapsed = now.getTime() - start.getTime();
+  const total = differenceInMilliseconds(endDate, startDate);
+  const elapsed = differenceInMilliseconds(now, startDate);
 
   return Math.round((elapsed / total) * 100);
 }
@@ -109,10 +107,10 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           <div className="mb-4 flex items-center gap-2 text-xs text-gray-400">
             <Calendar className="h-4 w-4" />
             {project.startDate && (
-              <span>{format(new Date(project.startDate), "yyyy年M月d日")}</span>
+              <span>{format(project.startDate, "yyyy年M月d日")}</span>
             )}
             {project.startDate && project.endDate && <span>-</span>}
-            {project.endDate && <span>{format(new Date(project.endDate), "yyyy年M月d日")}</span>}
+            {project.endDate && <span>{format(project.endDate, "yyyy年M月d日")}</span>}
           </div>
         )}
 
