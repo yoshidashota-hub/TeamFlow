@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { format, parseISO } from "date-fns";
 import { useTaskStore } from "../store/taskStore";
 import { useCreateTask, useUpdateTask, useTask } from "../hooks/useTasks";
 import { trpc } from "@/shared/lib/trpc";
@@ -57,8 +58,8 @@ export function CreateTaskModal() {
         assigneeId: task.assigneeId,
         status: task.status,
         priority: task.priority,
-        startDate: task.startDate ? new Date(task.startDate).toISOString().split("T")[0] : "",
-        dueDate: task.dueDate ? new Date(task.dueDate).toISOString().split("T")[0] : "",
+        startDate: task.startDate ? format(task.startDate, "yyyy-MM-dd") : "",
+        dueDate: task.dueDate ? format(task.dueDate, "yyyy-MM-dd") : "",
         estimatedHours: task.estimatedHours?.toString() || "",
         tags: task.tags.join(", "),
       });
@@ -80,8 +81,8 @@ export function CreateTaskModal() {
       assigneeId: formData.assigneeId,
       status: formData.status,
       priority: formData.priority,
-      startDate: formData.startDate ? new Date(formData.startDate) : undefined,
-      dueDate: formData.dueDate ? new Date(formData.dueDate) : undefined,
+      startDate: formData.startDate ? parseISO(formData.startDate) : undefined,
+      dueDate: formData.dueDate ? parseISO(formData.dueDate) : undefined,
       estimatedHours: formData.estimatedHours ? parseInt(formData.estimatedHours) : undefined,
       tags,
     };

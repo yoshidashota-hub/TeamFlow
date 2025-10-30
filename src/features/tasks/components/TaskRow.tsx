@@ -6,7 +6,7 @@ import { useTaskStore } from "../store/taskStore";
 import { Button } from "@/shared/components/ui/button";
 import { Badge, getStatusVariant, getPriorityVariant } from "@/shared/components/ui/badge";
 import { UserAvatar } from "@/shared/components/ui/user-avatar";
-import { Pencil, Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 
@@ -59,12 +59,7 @@ export function TaskRow({ task }: TaskRowProps) {
       </div>
 
       {/* 担当者 */}
-      <UserAvatar
-        image={task.assignee.image}
-        name={task.assignee.name}
-        size="md"
-        showName
-      />
+      <UserAvatar image={task.assignee.image} name={task.assignee.name} size="md" showName />
 
       {/* ステータス */}
       <div>
@@ -82,13 +77,13 @@ export function TaskRow({ task }: TaskRowProps) {
           <div className="flex flex-col gap-0.5">
             {task.startDate && (
               <div className="text-xs text-gray-400">
-                {format(new Date(task.startDate), "yyyy/MM/dd", { locale: ja })}
+                {format(task.startDate, "yyyy/MM/dd", { locale: ja })}
               </div>
             )}
             {task.startDate && task.dueDate && <div className="text-xs text-gray-500">〜</div>}
             {task.dueDate && (
               <div className="text-xs">
-                {format(new Date(task.dueDate), "yyyy/MM/dd", { locale: ja })}
+                {format(task.dueDate, "yyyy/MM/dd", { locale: ja })}
               </div>
             )}
           </div>
@@ -117,7 +112,7 @@ export function TaskRow({ task }: TaskRowProps) {
           aria-label="タスクを編集"
           className="text-gray-400 hover:text-white"
         >
-          <Pencil className="h-4 w-4" />
+          <Edit className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"

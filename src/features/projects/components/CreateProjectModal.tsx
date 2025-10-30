@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { parseISO } from "date-fns";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
@@ -52,8 +53,8 @@ export function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps)
         name: formData.name.trim(),
         description: formData.description.trim() || undefined,
         color: formData.color,
-        startDate: formData.startDate ? new Date(formData.startDate) : undefined,
-        endDate: formData.endDate ? new Date(formData.endDate) : undefined,
+        startDate: formData.startDate ? parseISO(formData.startDate) : undefined,
+        endDate: formData.endDate ? parseISO(formData.endDate) : undefined,
       });
 
       setFormData({ name: "", description: "", color: "#3B82F6", startDate: "", endDate: "" });

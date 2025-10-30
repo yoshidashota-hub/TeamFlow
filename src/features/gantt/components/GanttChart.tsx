@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { format, eachMonthOfInterval, startOfMonth, endOfMonth, subDays, lastDayOfMonth } from "date-fns";
 import type { ProjectWithTasks } from "@/features/projects";
 
 interface GanttChartProps {
@@ -9,20 +10,16 @@ interface GanttChartProps {
 
 // 月の配列を生成
 function generateMonths(startDate: Date, endDate: Date) {
-  const months: { year: number; month: number; label: string }[] = [];
-  const current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
-  const end = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+  const start = startOfMonth(startDate);
+  const end = endOfMonth(endDate);
 
-  while (current <= end) {
-    months.push({
-      year: current.getFullYear(),
-      month: current.getMonth() + 1,
-      label: `${current.getFullYear()}年${current.getMonth() + 1}月`,
-    });
-    current.setMonth(current.getMonth() + 1);
-  }
+  const monthDates = eachMonthOfInterval({ start, end });
 
-  return months;
+  return monthDates.map((date) => ({
+    year: parseInt(format(date, "yyyy")),
+    month: parseInt(format(date, "M")),
+    label: format(date, "yyyy年M月"),
+  }));
 }
 
 // タスクバーの位置とwidth を計算
@@ -35,25 +32,23 @@ function calculateTaskBar(
 ) {
   if (!task.dueDate) return null;
 
-  const end = new Date(task.dueDate);
+  const end = task.dueDate;
 
   // 開始日を決定
   let start: Date;
   if (task.startDate) {
     // 実際の開始日が設定されている場合はそれを使用
-    start = new Date(task.startDate);
+    start = task.startDate;
   } else if (task.estimatedHours && task.estimatedHours > 0) {
     // 推定工数から開始日を計算（1日8時間として計算）
     const estimatedDays = Math.ceil(task.estimatedHours / 8);
-    start = new Date(end);
-    start.setDate(start.getDate() - estimatedDays);
+    start = subDays(end, estimatedDays);
   } else if (projectStart) {
     // プロジェクト開始日を使用
-    start = new Date(projectStart);
+    start = projectStart;
   } else {
     // デフォルト: 終了日の7日前
-    start = new Date(end);
-    start.setDate(start.getDate() - 7);
+    start = subDays(end, 7);
   }
 
   // タスクがタイムライン範囲外の場合
@@ -85,33 +80,31 @@ export function GanttChart({ projects }: GanttChartProps) {
 
     projects.forEach((project) => {
       if (project.startDate) {
-        const start = new Date(project.startDate);
+        const start = project.startDate;
         if (!minDate || start < minDate) minDate = start;
       }
       if (project.endDate) {
-        const end = new Date(project.endDate);
+        const end = project.endDate;
         if (!maxDate || end > maxDate) maxDate = end;
       }
 
       project.tasks.forEach((task) => {
         if (task.dueDate) {
-          const end = new Date(task.dueDate);
+          const end = task.dueDate;
           if (!maxDate || end > maxDate) maxDate = end;
 
           // タスクの開始日を決定（実際の開始日または推定開始日）
           let taskStart: Date;
           if (task.startDate) {
             // 実際の開始日が設定されている場合はそれを使用
-            taskStart = new Date(task.startDate);
+            taskStart = task.startDate;
           } else if (task.estimatedHours && task.estimatedHours > 0) {
             const estimatedDays = Math.ceil(task.estimatedHours / 8);
-            taskStart = new Date(end);
-            taskStart.setDate(taskStart.getDate() - estimatedDays);
+            taskStart = subDays(end, estimatedDays);
           } else if (project.startDate) {
-            taskStart = new Date(project.startDate);
+            taskStart = project.startDate;
           } else {
-            taskStart = new Date(end);
-            taskStart.setDate(taskStart.getDate() - 7);
+            taskStart = subDays(end, 7);
           }
 
           if (!minDate || taskStart < minDate) minDate = taskStart;
@@ -126,9 +119,9 @@ export function GanttChart({ projects }: GanttChartProps) {
     const start = minDate || defaultStart;
     const end = maxDate || defaultEnd;
 
-    // 月の初めに調整
-    const timelineStart = new Date(start.getFullYear(), start.getMonth(), 1);
-    const timelineEnd = new Date(end.getFullYear(), end.getMonth() + 1, 0);
+    // 月の初めと終わりに調整
+    const timelineStart = startOfMonth(start);
+    const timelineEnd = lastDayOfMonth(end);
 
     const months = generateMonths(timelineStart, timelineEnd);
 

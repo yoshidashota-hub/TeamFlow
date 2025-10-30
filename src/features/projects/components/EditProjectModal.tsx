@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { format, parseISO } from "date-fns";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
@@ -36,8 +37,8 @@ export function EditProjectModal({ isOpen, projectId, onClose }: EditProjectModa
         name: project.name,
         description: project.description || "",
         color: project.color,
-        startDate: project.startDate ? new Date(project.startDate).toISOString().split("T")[0] : "",
-        endDate: project.endDate ? new Date(project.endDate).toISOString().split("T")[0] : "",
+        startDate: project.startDate ? format(project.startDate, "yyyy-MM-dd") : "",
+        endDate: project.endDate ? format(project.endDate, "yyyy-MM-dd") : "",
       });
     }
   }, [project]);
@@ -70,8 +71,8 @@ export function EditProjectModal({ isOpen, projectId, onClose }: EditProjectModa
         name: formData.name.trim(),
         description: formData.description.trim() || undefined,
         color: formData.color,
-        startDate: formData.startDate ? new Date(formData.startDate) : undefined,
-        endDate: formData.endDate ? new Date(formData.endDate) : undefined,
+        startDate: formData.startDate ? parseISO(formData.startDate) : undefined,
+        endDate: formData.endDate ? parseISO(formData.endDate) : undefined,
       });
 
       onClose();
