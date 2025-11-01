@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FolderKanban, ListTodo, GanttChart, ArrowRight } from "lucide-react";
+import { FolderKanban, ListTodo, GanttChart, ArrowRight, Kanban } from "lucide-react";
 
 export default function DashboardPage() {
   return (
@@ -14,7 +14,7 @@ export default function DashboardPage() {
         </div>
 
         {/* クイックアクセス */}
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {/* プロジェクト管理 */}
           <Link
             href="/dashboard/projects"
@@ -46,6 +46,23 @@ export default function DashboardPage() {
             <h2 className="mb-2 text-xl font-bold text-white">タスク管理</h2>
             <p className="text-sm text-gray-400">
               タスクを作成・編集・進捗管理できます
+            </p>
+          </Link>
+
+          {/* カンバン */}
+          <Link
+            href="/dashboard/kanban"
+            className="group rounded-xl border border-white/10 bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 transition-all hover:border-white/20 hover:shadow-lg hover:shadow-purple-500/20"
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-pink-500">
+                <Kanban className="h-6 w-6 text-white" />
+              </div>
+              <ArrowRight className="h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1" />
+            </div>
+            <h2 className="mb-2 text-xl font-bold text-white">カンバン</h2>
+            <p className="text-sm text-gray-400">
+              タスク管理&コラボレーション
             </p>
           </Link>
 
