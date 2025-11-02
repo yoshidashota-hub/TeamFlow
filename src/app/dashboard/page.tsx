@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { FolderKanban, ListTodo, GanttChart, ArrowRight, Kanban } from "lucide-react";
+import { FolderKanban, ListTodo, GanttChartIcon, ArrowRight, Kanban } from "lucide-react";
+import { Dashboard } from "@/features/dashboard";
+import { trpc } from "@/shared/lib/trpc";
 
 export default function DashboardPage() {
+  // ダッシュボードデータの取得
+  const { data, isLoading } = trpc.dashboard.getData.useQuery();
+
   return (
     <div className="min-h-screen bg-[#0A0A0F] p-8">
       <div className="mx-auto max-w-[1400px] space-y-8">
@@ -73,7 +78,7 @@ export default function DashboardPage() {
           >
             <div className="mb-4 flex items-center justify-between">
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-orange-500 to-red-500">
-                <GanttChart className="h-6 w-6 text-white" />
+                <GanttChartIcon className="h-6 w-6 text-white" />
               </div>
               <ArrowRight className="h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1" />
             </div>
@@ -83,6 +88,15 @@ export default function DashboardPage() {
             </p>
           </Link>
         </div>
+
+        {/* ダッシュボード分析 */}
+        {isLoading ? (
+          <div className="flex h-64 items-center justify-center">
+            <p className="text-gray-400">読み込み中...</p>
+          </div>
+        ) : data ? (
+          <Dashboard tasks={data.tasks} projects={data.projects} />
+        ) : null}
       </div>
     </div>
   );
