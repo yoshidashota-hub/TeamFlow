@@ -17,5 +17,6 @@ export type {
   CreateProjectInput,
   Project,
   ProjectWithTasks,
+  ProjectWithTaskStats,
   UpdateProjectInput,
 } from "./types/project.types";
